@@ -341,7 +341,7 @@ try {
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
-            <p>Welcome back, <?php echo htmlspecialchars($_SESSION['firstName'] . ' ' . $_SESSION['lastName']); ?>!</p>
+            <p>Welcome back to Wastu , <?php echo htmlspecialchars($_SESSION['firstName'] . ' ' . $_SESSION['lastName']); ?>!</p>
             <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
 

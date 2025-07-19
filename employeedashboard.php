@@ -95,8 +95,8 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="welcome-banner">
                 <div class="text">
                     <div class="date"><?php echo date('F j, Y'); ?></div>
-                    <h2>Welcome back, <?php echo htmlspecialchars($firstName); ?>!</h2>
-                    <p>Manage orders and inventory efficiently. Here's your daily overview.</p>
+                    <h2>Welcome back to Wastu , <?php echo htmlspecialchars($firstName); ?>!</h2>
+                    <p>Manage orders and inventory efficiently. Here's your daily overview.Have a great day <3 .</p>
                 </div>
                 <div class="image">
                     <i class="fas fa-clipboard-list" style="font-size: 80px; opacity: 0.3;"></i>
