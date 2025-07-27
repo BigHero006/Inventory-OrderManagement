@@ -151,7 +151,7 @@ try {
                     <button class="btn-secondary" onclick="exportSuppliersReport()">
                         <i class="fas fa-download"></i> Export Report
                     </button>
-                    <button class="btn-primary" onclick="openModal('addSupplierModal')">
+                    <button class="btn-primary" onclick="showAddSupplierModal()">
                         <i class="fas fa-plus"></i> Add Supplier
                     </button>
                 </div>
@@ -261,6 +261,15 @@ try {
     </div>
 
     <script>
+        // Modal functions
+        function showAddSupplierModal() {
+            document.getElementById('addSupplierModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
         // Supplier management functions
         function exportSuppliersReport() {
             window.location.href = 'export-reports.php?type=suppliers';
@@ -339,7 +348,6 @@ try {
             
             return true;
         }
-        });
 
         // Close modal when clicking outside
         window.addEventListener('click', function(event) {

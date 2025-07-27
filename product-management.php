@@ -151,7 +151,7 @@ try {
                     <button class="btn-secondary" onclick="exportProductsReport()">
                         <i class="fas fa-download"></i> Export Report
                     </button>
-                    <button class="btn-primary" onclick="openModal('addProductModal')">
+                    <button class="btn-primary" onclick="showAddProductModal()">
                         <i class="fas fa-plus"></i> Add Product
                     </button>
                 </div>
@@ -274,6 +274,15 @@ try {
     </div>
 
     <script>
+        // Modal functions
+        function showAddProductModal() {
+            document.getElementById('addProductModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
         // Product management functions
         function exportProductsReport() {
             window.location.href = 'export-reports.php?type=products';
@@ -342,7 +351,6 @@ try {
             // Allow form to submit normally
             return true;
         }
-        });
 
         // Close modal when clicking outside
         window.addEventListener('click', function(event) {

@@ -15,17 +15,24 @@ $ordersStmt = $pdo->prepare("SELECT COUNT(*) as total_orders FROM orders");
 $ordersStmt->execute();
 $ordersCount = $ordersStmt->fetch(PDO::FETCH_ASSOC)['total_orders'];
 
-
-$productsStmt = $pdo->prepare("SELECT COUNT(DISTINCT product_name) as total_products FROM ordered_items");
+// Fix: Use product_id instead of product_name and join with products table
+$productsStmt = $pdo->prepare("SELECT COUNT(DISTINCT product_id) as total_products FROM order_items");
 $productsStmt->execute();
 $productsCount = $productsStmt->fetch(PDO::FETCH_ASSOC)['total_products'];
 
-
-$pendingOrdersStmt = $pdo->prepare("SELECT COUNT(*) as pending_orders FROM orders WHERE status = 'Pending'");
+// Fix: Use lowercase 'pending' to match database schema
+$pendingOrdersStmt = $pdo->prepare("SELECT COUNT(*) as pending_orders FROM orders WHERE status = 'pending'");
 $pendingOrdersStmt->execute();
 $pendingOrdersCount = $pendingOrdersStmt->fetch(PDO::FETCH_ASSOC)['pending_orders'];
 
-$recentOrdersStmt = $pdo->prepare("SELECT order_id, customer_name, order_date, status FROM orders ORDER BY order_date DESC LIMIT 5");
+// Fix: Join with users table to get customer name since orders table has user_id, not customer_name
+$recentOrdersStmt = $pdo->prepare("
+    SELECT o.order_id, CONCAT(u.firstName, ' ', u.lastName) as customer_name, o.order_date, o.status 
+    FROM orders o 
+    JOIN users u ON o.user_id = u.id 
+    ORDER BY o.order_date DESC 
+    LIMIT 5
+");
 $recentOrdersStmt->execute();
 $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>

@@ -273,8 +273,8 @@ class ModalEnhancer {
         const modal = document.getElementById(modalId);
         if (!modal) return;
         
-        modal.style.display = 'flex';
-        modal.classList.add('active');
+        modal.style.display = 'block';
+        modal.classList.add('modal-opening');
         
         setTimeout(() => {
             modal.classList.remove('modal-opening');
@@ -288,7 +288,6 @@ class ModalEnhancer {
         }
         
         modal.classList.add('modal-closing');
-        modal.classList.remove('active');
         
         setTimeout(() => {
             modal.style.display = 'none';
