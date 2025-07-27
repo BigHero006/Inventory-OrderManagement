@@ -17,9 +17,9 @@ function requireRole($requiredRole) {
     if ($_SESSION['role'] !== $requiredRole) {
         
         if ($_SESSION['role'] === 'Admin') {
-            header('Location: admin_dashboard.php');
+            header('Location: admindashboard.php');
         } elseif ($_SESSION['role'] === 'Employee') {
-            header('Location: employee_dashboard.php');
+            header('Location: employeedashboard.php');
         } else {
             header('Location: Signin.php');
         }

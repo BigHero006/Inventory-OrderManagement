@@ -35,10 +35,9 @@ try {
     <title>Admin Dashboard - System Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="admin-dashboard.css">
-    <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard gradient-mesh custom-scrollbar">
+    <div class="dashboard">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -92,177 +91,138 @@ try {
                     </div>
                     <div id="searchResults" class="search-results"></div>
                 </div>
-                <div class="header-actions">
+                <div class="user-info">
                     <div class="notification">
                         <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
                     </div>
-                    <div class="header-user">
-                        <img src="https://via.placeholder.com/40" alt="User" class="user-photo">
-                        <div class="user-info">
-                            <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
-                            <div class="role">Administrator</div>
-                        </div>
-                    </div>
+                    <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
+                    <div class="year">Administrator</div>
                 </div>
             </div>
 
             <!-- Welcome Banner -->
             <div class="welcome-banner">
-                <div class="welcome-content">
-                    <div class="welcome-text">
-                        <div class="date"><?php echo date('l, F j, Y'); ?></div>
-                        <h1>Welcome back, <?php echo htmlspecialchars($firstName); ?>!</h1>
-                        <p>Your complete solution to order management. Monitor and manage all operations and users efficiently.</p>
-                    </div>
-                    <div class="welcome-visual">
-                        <div class="stats-preview">
-                            <div class="mini-stat">
-                                <i class="fas fa-users"></i>
-                                <span><?php echo $userStats['total_users']; ?> Users</span>
-                            </div>
-                            <div class="mini-stat">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span><?php echo $orderStats['total_orders']; ?> Orders</span>
-                            </div>
-                            <div class="mini-stat">
-                                <i class="fas fa-truck"></i>
-                                <span><?php echo $supplierStats['total_suppliers']; ?> Suppliers</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="text">
+                    <div class="date"><?php echo date('F j, Y'); ?></div>
+                    <h2>Welcome back to Wastu, <?php echo htmlspecialchars($firstName); ?>!</h2>
+                    <p>Your complete solution to inventory and order management. Monitor and manage all operations and users.</p>
+                </div>
+                <div class="image">
+                    <i class="fas fa-chart-line" style="font-size: 80px; opacity: 0.3;"></i>
                 </div>
             </div>
 
             <!-- Statistics Section -->
             <div class="stats-section">
-                <h2 class="section-title">System Overview</h2>
-                <div class="stats-grid">
-                    <div class="stat-card-enhanced stagger-up hover-lift">
-                        <div class="stat-icon-enhanced">
+                <div class="finance-cards">
+                    <div class="finance-card">
+                        <div class="card-icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div class="stat-content">
-                            <h3 class="text-gradient">Total Users</h3>
-                            <div class="stat-number"><?php echo $userStats['total_users']; ?></div>
-                            <div class="stat-details">
-                                <span class="detail-item">
-                                    <i class="fas fa-user-shield"></i>
-                                    <?php echo $userStats['total_admins'] ?? 0; ?> Admins
-                                </span>
-                                <span class="detail-item">
-                                    <i class="fas fa-user-tie"></i>
-                                    <?php echo $userStats['total_employees'] ?? 0; ?> Employees
-                                </span>
-                            </div>
+                        <div class="card-content">
+                            <h3>Total Users</h3>
+                            <p class="stat-number"><?php echo $userStats['total_users']; ?></p>
+                            <small>System users</small>
                         </div>
                     </div>
-
-                    <div class="stat-card-enhanced stagger-up hover-lift">
-                        <div class="stat-icon-enhanced">
+                    <div class="finance-card">
+                        <div class="card-icon employee">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Employees</h3>
+                            <p class="stat-number employee-color"><?php echo $userStats['employee_users']; ?></p>
+                            <small>Active employees</small>
+                        </div>
+                    </div>
+                    <div class="finance-card">
+                        <div class="card-icon orders">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <div class="stat-content">
-                            <h3 class="text-gradient">Order Management</h3>
-                            <div class="stat-number"><?php echo $orderStats['total_orders']; ?></div>
-                            <div class="stat-details">
-                                <span class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <?php echo $orderStats['pending_orders']; ?> Pending
-                                </span>
-                                <span class="detail-item">
-                                    <i class="fas fa-check"></i>
-                                    <?php echo $orderStats['delivered_orders']; ?> Delivered
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card-enhanced stagger-up hover-lift">
-                        <div class="stat-icon-enhanced">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <div class="stat-content">
-                            <h3 class="text-gradient">Suppliers</h3>
-                            <div class="stat-number"><?php echo $supplierStats['total_suppliers']; ?></div>
-                            <div class="stat-details">
-                                <span class="detail-item">
-                                    <i class="fas fa-handshake"></i>
-                                    Active Partners
-                                </span>
-                            </div>
+                        <div class="card-content">
+                            <h3>Total Orders</h3>
+                            <p class="stat-number"><?php echo $orderStats['total_orders']; ?></p>
+                            <small>All orders</small>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions-section">
-                <h2 class="section-title text-gradient">Quick Actions</h2>
-                <div class="actions-grid">
-                    <div class="action-card" onclick="navigateToPage('user-management.php')">
-                        <div class="action-icon users">
-                            <i class="fas fa-users-cog"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>Manage Users</h3>
-                            <p>Add, edit, or remove system users and manage permissions</p>
-                            <button class="action-btn">Open Panel</button>
-                        </div>
-                    </div>
-
-                    <div class="action-card" onclick="navigateToPage('order-management.php')">
-                        <div class="action-icon orders">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>Process Orders</h3>
-                            <p>View, track, and manage customer orders and deliveries</p>
-                            <button class="action-btn">View Orders</button>
-                        </div>
-                    </div>
-
-                    <div class="action-card" onclick="navigateToPage('product-management.php')">
-                        <div class="action-icon products">
-                            <i class="fas fa-box"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>Product Catalog</h3>
-                            <p>Manage product catalog, pricing, and availability</p>
-                            <button class="action-btn">Manage Products</button>
-                        </div>
-                    </div>
-
-                    <div class="action-card" onclick="navigateToPage('supplier-management.php')">
-                        <div class="action-icon suppliers">
+            <!-- Secondary Stats -->
+            <div class="stats-section">
+                <div class="finance-cards">
+                    <div class="finance-card">
+                        <div class="card-icon suppliers">
                             <i class="fas fa-truck"></i>
                         </div>
-                        <div class="action-content">
-                            <h3>Supplier Network</h3>
-                            <p>Manage supplier relationships and procurement</p>
-                            <button class="action-btn">View Suppliers</button>
+                        <div class="card-content">
+                            <h3>Suppliers</h3>
+                            <p class="stat-number"><?php echo $supplierStats['total_suppliers']; ?></p>
+                            <small>Active suppliers</small>
                         </div>
                     </div>
-
-                    <div class="action-card" onclick="navigateToPage('system-reports.php')">
-                        <div class="action-icon reports">
-                            <i class="fas fa-chart-bar"></i>
+                    <div class="finance-card">
+                        <div class="card-icon pending">
+                            <i class="fas fa-clock"></i>
                         </div>
-                        <div class="action-content">
-                            <h3>Analytics & Reports</h3>
-                            <p>Generate detailed reports and analyze system performance</p>
-                            <button class="action-btn">View Reports</button>
+                        <div class="card-content">
+                            <h3>Pending Orders</h3>
+                            <p class="stat-number pending-color"><?php echo $orderStats['pending_orders']; ?></p>
+                            <small>Need attention</small>
+                        </div>
+                    </div>
+                    <div class="finance-card">
+                        <div class="card-icon delivered">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Delivered Orders</h3>
+                            <p class="stat-number"><?php echo $orderStats['delivered_orders']; ?></p>
+                            <small>Completed</small>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Activity -->
-            <div class="recent-activity">
-                <h2 class="section-title">Recent Orders</h2>
-                <div class="activity-container">
-                    <div id="recentOrdersContainer" class="orders-list">
-                        <!-- Recent orders will be loaded via AJAX -->
+            <div class="daily-notice">
+                <h3>Recent Orders Overview</h3>
+                <div id="recentOrdersContainer">
+                    <!-- Recent orders will be loaded via AJAX -->
+                </div>
+            </div>
+
+            <!-- Administrative Actions -->
+            <div class="enrolled-courses">
+                <h3>Administrative Actions</h3>
+                <div class="actions-grid">
+                    <div class="course-card" onclick="navigateToPage('user-management.php')">
+                        <div class="action-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <div class="title">User Management</div>
+                        <button>Manage Users</button>
+                    </div>
+                    <div class="course-card" onclick="navigateToPage('employee-management.php')">
+                        <div class="action-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="title">Employee Oversight</div>
+                        <button>Monitor Employees</button>
+                    </div>
+                    <div class="course-card" onclick="navigateToPage('system-reports.php')">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="title">System Reports</div>
+                        <button>View Reports</button>
+                    </div>
+                    <div class="course-card" onclick="navigateToPage('financial-reports.php')">
+                        <div class="action-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="title">Financial Overview</div>
+                        <button>Financial Data</button>
                     </div>
                 </div>
             </div>
@@ -362,18 +322,11 @@ try {
             fetch('api/admin_api.php?action=recent_orders')
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success && data.data.length > 0) {
+                    if (data.success) {
                         displayRecentOrders(data.data);
-                    } else {
-                        document.getElementById('recentOrdersContainer').innerHTML = 
-                            '<div class="empty-state"><i class="fas fa-shopping-cart"></i><p>No recent orders found</p></div>';
                     }
                 })
-                .catch(error => {
-                    console.error('Error loading recent orders:', error);
-                    document.getElementById('recentOrdersContainer').innerHTML = 
-                        '<div class="error-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load orders</p></div>';
-                });
+                .catch(error => console.error('Error loading recent orders:', error));
         }
         
         // Display recent orders
@@ -381,22 +334,19 @@ try {
             const container = document.getElementById('recentOrdersContainer');
             let html = '';
             
-            orders.forEach(order => {
-                const statusClass = order.status.toLowerCase().replace(' ', '-');
-                html += `
-                    <div class="order-item" onclick="navigateToPage('order-management.php?order=${order.order_id}')">
-                        <div class="order-info">
-                            <div class="order-header">
-                                <span class="order-id">#${order.order_id}</span>
-                                <span class="order-status status-${statusClass}">${order.status}</span>
-                            </div>
-                            <div class="order-customer">${order.customer_name}</div>
-                            <div class="order-date">${new Date(order.order_date).toLocaleDateString()}</div>
+            if (orders.length === 0) {
+                html = '<p>No recent orders found.</p>';
+            } else {
+                orders.forEach(order => {
+                    html += `
+                        <div class="notice-item">
+                            <strong>Order #${order.order_id} - ${order.customer_name}</strong>
+                            <p>Status: <span class="status-${order.status.toLowerCase()}">${order.status}</span></p>
+                            <small>Date: ${new Date(order.order_date).toLocaleDateString()}</small>
                         </div>
-                        <div class="order-amount">$${parseFloat(order.total_amount || 0).toFixed(2)}</div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
             
             container.innerHTML = html;
         }
@@ -440,29 +390,6 @@ try {
             // Load initial data
             loadRecentOrders();
         });
-    </script>
-
-    <!-- Particle Background -->
-    <div class="particles-bg" id="particles-bg"></div>
-    
-    <script>
-        // Create particle background
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles-bg');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        // Initialize particles when page loads
-        document.addEventListener('DOMContentLoaded', createParticles);
     </script>
 </body>
 </html>

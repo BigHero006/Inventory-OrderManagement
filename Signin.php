@@ -6,31 +6,34 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
     $email = $_POST['email'];
     $password = md5($_POST['password']);
 
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND password = ?');
-    $stmt->execute([$email, $password]);
-    $value = $stmt->fetch(PDO::FETCH_ASSOC);
+    try {
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND password = ?');
+        $stmt->execute([$email, $password]);
+        $value = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($value){
-        
-    $_SESSION['email'] = $value['email'];
-    $_SESSION['firstName'] = $value['firstName'];
-    $_SESSION['lastName'] = $value['lastName'];
-    $_SESSION['id'] = $value['id'];
-    $_SESSION['phoneNumber'] = $value['phoneNumber'] ?? '';
-    $_SESSION['role'] = $value['role'];
-    $_SESSION['profile_photo'] = $value['profile_photo'] ?? '';
-   
-    if ($value['role'] === 'Admin') {
-        header('Location: admin_dashboard.php');
-    } elseif ($value['role'] === 'Employee') {
-        header('Location: employee_dashboard.php');
-    } else {
-        // Fallback for any legacy users
-        header('Location: admin_dashboard.php');
-    }
-    exit();
-    } else {
-        echo "Invalid email or password!";
+        if ($value) {
+            $_SESSION['email'] = $value['email'];
+            $_SESSION['firstName'] = $value['firstName'];
+            $_SESSION['lastName'] = $value['lastName'];
+            $_SESSION['user_id'] = $value['id']; // Changed from 'id' to 'user_id' for SessionManager compatibility
+            $_SESSION['phone'] = $value['phone'] ?? '';
+            $_SESSION['role'] = $value['role'];
+            $_SESSION['profile_photo'] = $value['profile_photo'] ?? '';
+           
+            if ($value['role'] === 'Admin') {
+                header('Location: admindashboard.php');
+            } elseif ($value['role'] === 'Employee') {
+                header('Location: employeedashboard.php');
+            } else {
+                // Fallback for any legacy users
+                header('Location: admindashboard.php');
+            }
+            exit();
+        } else {
+            echo "<div style='color: red; text-align: center; margin: 20px;'>Invalid email or password!</div>";
+        }
+    } catch (PDOException $e) {
+        echo "<div style='color: red; text-align: center; margin: 20px;'>Database error: " . htmlspecialchars($e->getMessage()) . "</div>";
     }
 }
 ?>

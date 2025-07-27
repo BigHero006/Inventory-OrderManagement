@@ -26,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
        
 
-        $insertQuery = "INSERT INTO users (id, firstName, lastName, email, phoneNumber, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO users (firstName, lastName, email, phone, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $insertStmt = $pdo->prepare($insertQuery);
-        $success = $insertStmt->execute([$id, $firstName, $lastName, $email, $phoneNumber, $role, $password]);
+        $address = ''; // Default empty address since form doesn't collect this
+        $success = $insertStmt->execute([$firstName, $lastName, $email, $phoneNumber, $address, $role, $password]);
         if (!$success) {
             $errorInfo = $insertStmt->errorInfo();
             echo "Database insert error: " . htmlspecialchars($errorInfo[2]);

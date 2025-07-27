@@ -16,7 +16,7 @@ $ordersStmt->execute();
 $ordersCount = $ordersStmt->fetch(PDO::FETCH_ASSOC)['total_orders'];
 
 
-$productsStmt = $pdo->prepare("SELECT COUNT(*) as total_products FROM inventory");
+$productsStmt = $pdo->prepare("SELECT COUNT(DISTINCT product_name) as total_products FROM ordered_items");
 $productsStmt->execute();
 $productsCount = $productsStmt->fetch(PDO::FETCH_ASSOC)['total_products'];
 
@@ -35,7 +35,7 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Dashboard - Inventory & Order Management</title>
+    <title>Employee Dashboard - Order Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -59,10 +59,6 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="#products">
                     <i class="fas fa-box"></i>
                     <span>Manage Products</span>
-                </a>
-                <a href="#inventory">
-                    <i class="fas fa-warehouse"></i>
-                    <span>Inventory</span>
                 </a>
                 <a href="#shipments">
                     <i class="fas fa-truck"></i>
@@ -96,7 +92,7 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="text">
                     <div class="date"><?php echo date('F j, Y'); ?></div>
                     <h2>Welcome back to Wastu , <?php echo htmlspecialchars($firstName); ?>!</h2>
-                    <p>Manage orders and inventory efficiently. Here's your daily overview.Have a great day <3 .</p>
+                    <p>Manage orders and products efficiently. Here's your daily overview. Have a great day <3 .</p>
                 </div>
                 <div class="image">
                     <i class="fas fa-clipboard-list" style="font-size: 80px; opacity: 0.3;"></i>
@@ -114,7 +110,7 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="finance-card">
                         <h3>Total Products</h3>
                         <p><?php echo $productsCount; ?></p>
-                        <small>In inventory</small>
+                        <small>Distinct products</small>
                     </div>
                     <div class="finance-card">
                         <h3>Pending Orders</h3>
@@ -152,10 +148,6 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
                     <button onclick="showAddOrderModal()">New Order</button>
                 </div>
                 <div class="course-card">
-                    <div class="title">Update Inventory</div>
-                    <button onclick="showInventoryModal()">Update Stock</button>
-                </div>
-                <div class="course-card">
                     <div class="title">Process Shipment</div>
                     <button onclick="showShipmentModal()">Ship Order</button>
                 </div>
@@ -171,10 +163,6 @@ $recentOrders = $recentOrdersStmt->fetchAll(PDO::FETCH_ASSOC);
 
         function showAddOrderModal() {
             alert('Add Order functionality would open here');
-        }
-
-        function showInventoryModal() {
-            alert('Inventory update functionality would open here');
         }
 
         function showShipmentModal() {
