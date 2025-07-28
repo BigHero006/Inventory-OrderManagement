@@ -196,8 +196,8 @@ $users = $admin->getAllUsers();
     <footer class="dashboard-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>User Management</h4>
-                <p>Comprehensive user administration system for managing all system users and their access levels.</p>
+                <h4>Wastu Inventory</h4>
+                <p>Efficient order and inventory management system designed for modern businesses.</p>
             </div>
             <div class="footer-section">
                 <h4>Management</h4>

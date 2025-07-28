@@ -277,8 +277,8 @@ try {
     <footer class="dashboard-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Product Management</h4>
-                <p>Comprehensive product catalog and inventory management system for your business.</p>
+                <h4>Wastu Inventory</h4>
+                <p>Efficient order and inventory management system designed for modern businesses.</p>
             </div>
             <div class="footer-section">
                 <h4>Management</h4>
