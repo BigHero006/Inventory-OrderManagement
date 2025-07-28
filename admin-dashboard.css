@@ -3,44 +3,51 @@
 /* ============ GOOGLE FONTS IMPORT ============ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* ============ ROOT VARIABLES ============ */
+/* ============ ROOT VARIABLES (DEEP SEA THEME) ============ */
 :root {
     /* Primary Colors */
-    --primary-color: #667eea;
-    --primary-dark: #5a6fd8;
-    --primary-light: #7c8ef0;
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --accent-color: #f093fb;
-    --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    
+    --primary-color: #0c4a6e;           /* Deep Ocean Blue */
+    --primary-dark: #083344;            /* Deeper Sea Blue */
+    --primary-light: #0369a1;           /* Lighter Ocean Blue */
+    --primary-gradient: linear-gradient(135deg, #7dd3fc 0%, #0369a1 100%);
+    --accent-color: #0284c7;            /* Accent Ocean Blue */
+    --accent-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+
     /* Background Colors */
-    --bg-primary: #f8fafc;
-    --bg-secondary: #ffffff;
-    --bg-dark: #1a202c;
+    --bg-primary: #f0f9ff;              /* Very Light Ocean Tint */
+    --bg-secondary: #e0f2fe;            /* Light Ocean Tint */
+    --bg-dark: #083344;                 /* Deep Sea for contrast */
     --bg-card: rgba(255, 255, 255, 0.95);
-    --bg-overlay: rgba(0, 0, 0, 0.1);
-    
+    --bg-overlay: rgba(12, 74, 110, 0.05);  /* Subtle Ocean Overlay */
+
     /* Text Colors */
-    --text-primary: #2d3748;
-    --text-secondary: #718096;
-    --text-muted: #a0aec0;
+    --text-primary: #042f2e;            /* Very Dark Sea Green (almost black) */
+    --text-secondary: #083344;          /* Dark Ocean Blue */
+    --text-muted: #0f766e;              /* Medium Sea Teal */
     --text-white: #ffffff;
-    
+
     /* Status Colors */
-    --success-color: #38a169;
-    --warning-color: #ed8936;
-    --error-color: #e53e3e;
-    --info-color: #3182ce;
-    
+    --success-color: #10b981;           /* Emerald */
+    --warning-color: #f59e0b;           /* Amber */
+    --error-color: #ef4444;             /* Red */
+    --info-color: #3b82f6;              /* Blue */
+
+    /* Table Colors - White Theme */
+    --table-bg: #ffffff;                /* Pure White */
+    --table-header-bg: #f8f9fa;         /* Very Light Gray */
+    --table-row-hover: #f5f5f5;         /* Light Gray Hover */
+    --table-border: #dee2e6;            /* Light Gray Border */
+    --table-text: #212529;              /* Dark Text for Readability */
+
     /* Borders and Shadows */
-    --border-color: #e2e8f0;
+    --border-color: #0369a1;            /* Light Ocean Blue Border */
     --border-radius: 12px;
     --border-radius-lg: 16px;
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.15);
-    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.1);
-    
+    --shadow-sm: 0 2px 4px rgba(12, 74, 110, 0.08);
+    --shadow-md: 0 4px 12px rgba(12, 74, 110, 0.15);
+    --shadow-lg: 0 8px 25px rgba(12, 74, 110, 0.2);
+    --shadow-xl: 0 20px 40px rgba(12, 74, 110, 0.15);
+
     /* Spacing */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
@@ -48,34 +55,35 @@
     --spacing-lg: 24px;
     --spacing-xl: 32px;
     --spacing-2xl: 48px;
-    
+
     /* Transitions */
     --transition-fast: 0.15s ease-out;
     --transition-base: 0.3s ease-out;
     --transition-slow: 0.5s ease-out;
-    
+
     /* Layout */
     --sidebar-width: 280px;
     --header-height: 80px;
     --container-max-width: 1200px;
-    
+
     /* Responsive Breakpoints */
     --mobile: 768px;
     --tablet: 1024px;
     --desktop: 1200px;
-    
+
     /* Glassmorphism */
     --glass-bg: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-blur: blur(20px);
-    
+
     /* Gradient Mesh */
     --gradient-mesh: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(12, 74, 110, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(3, 105, 161, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(125, 211, 252, 0.15) 0%, transparent 50%),
         var(--bg-primary);
 }
+
 
 /* ============ RESET AND BASE STYLES ============ */
 * {
@@ -111,11 +119,15 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     background: var(--primary-gradient);
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
     z-index: 1000;
     box-shadow: var(--shadow-lg);
     transform: translateX(0);
     transition: transform var(--transition-base);
+    overflow-y: auto;
 }
 
 .sidebar::after {
@@ -287,7 +299,7 @@ body {
 .main-content {
     flex: 1;
     padding: var(--spacing-lg);
-    margin-left: 0;
+    margin-left: var(--sidebar-width);
     background: transparent;
     position: relative;
 }
@@ -330,7 +342,7 @@ body {
 
 .search-box:focus-within {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(12, 74, 110, 0.1);
 }
 
 .search-box input {
@@ -386,13 +398,13 @@ body {
     cursor: pointer;
     padding: var(--spacing-sm);
     border-radius: 50%;
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(12, 74, 110, 0.1);
     color: var(--primary-color);
     transition: all var(--transition-base);
 }
 
 .notification:hover {
-    background: rgba(102, 126, 234, 0.2);
+    background: rgba(12, 74, 110, 0.2);
     transform: scale(1.1);
 }
 
@@ -1879,7 +1891,10 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
-    background: transparent;
+    background: var(--table-bg);
+    border: 2px solid var(--table-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
 /* Enhanced Table Headers */
@@ -1890,8 +1905,8 @@ body {
 .orders-table thead th, 
 .users-table thead th,
 .employees-table thead th {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--table-header-bg);
+    color: var(--table-text);
     padding: 18px 16px;
     text-align: left;
     font-weight: 600;
@@ -1902,7 +1917,7 @@ body {
     top: 0;
     z-index: 10;
     border: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(22, 160, 133, 0.2);
 }
 
 /* Sortable Headers */
@@ -1954,9 +1969,9 @@ body {
 .orders-table tbody tr:hover, 
 .users-table tbody tr:hover,
 .employees-table tbody tr:hover {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.05) 100%);
+    background: var(--table-row-hover);
     transform: scale(1.01);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 4px 12px rgba(22, 160, 133, 0.15);
 }
 
 /* Table Cells */
@@ -1968,7 +1983,7 @@ body {
 .users-table td,
 .employees-table td {
     padding: 16px;
-    color: var(--text-primary);
+    color: var(--table-text);
     vertical-align: middle;
     border: none;
     position: relative;
@@ -1982,7 +1997,7 @@ body {
 .orders-table tbody tr:nth-child(even), 
 .users-table tbody tr:nth-child(even),
 .employees-table tbody tr:nth-child(even) {
-    background: rgba(248, 250, 252, 0.5);
+    background: #fafafa;
 }
 
 /* Status Badges for Tables */
@@ -1998,27 +2013,27 @@ body {
 }
 
 .status-active, .status-delivered {
-    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    background: #27ae60;
     color: white;
-    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.3);
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
 }
 
 .status-inactive, .status-cancelled {
-    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    background: #e74c3c;
     color: white;
-    box-shadow: 0 2px 4px rgba(229, 62, 62, 0.3);
+    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
 }
 
 .status-pending {
-    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    background: #f39c12;
     color: white;
-    box-shadow: 0 2px 4px rgba(237, 137, 54, 0.3);
+    box-shadow: 0 2px 4px rgba(243, 156, 18, 0.3);
 }
 
 .status-shipped {
-    background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+    background: #20b2aa;
     color: white;
-    box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 2px 4px rgba(32, 178, 170, 0.3);
 }
 
 /* Priority Indicators */
@@ -2076,17 +2091,17 @@ body {
 }
 
 .btn-view {
-    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    background: #27ae60;
     color: white;
 }
 
 .btn-edit {
-    background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+    background: #16a085;
     color: white;
 }
 
 .btn-delete {
-    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    background: #e74c3c;
     color: white;
 }
 
@@ -2120,7 +2135,7 @@ body {
 .search-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 3px rgba(12, 74, 110, 0.1);
     background: white;
 }
 
@@ -2442,6 +2457,7 @@ td:first-child {
     font-family: 'Courier New', monospace;
     font-weight: 600;
     color: var(--primary-color);
+    background: transparent;
 }
 
 /* Inventory Table Specific */
@@ -2450,28 +2466,51 @@ td:first-child {
 }
 
 .inventory-table th {
-    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    background: var(--table-header-bg);
+    color: var(--table-text);
 }
 
 /* Status Badges for Database Values */
 .status-badge.status-pending {
-    background: linear-gradient(135deg, #ffc107, #fd7e14);
-    color: #212529;
-}
-
-.status-badge.status-shipped {
-    background: linear-gradient(135deg, #17a2b8, #20c997);
+    background: #f59e0b;
     color: white;
+    border: none;
 }
 
 .status-badge.status-delivered {
-    background: linear-gradient(135deg, #28a745, #20c997);
+    background: #16a085;
     color: white;
+    border: none;
+}
+
+.status-badge.status-shipped {
+    background: #20b2aa;
+    color: white;
+    border: none;
 }
 
 .status-badge.status-cancelled {
-    background: linear-gradient(135deg, #dc3545, #c82333);
+    background: #dc3545;
     color: white;
+    border: none;
+}
+
+.status-badge.status-processing {
+    background: #3498db;
+    color: white;
+    border: none;
+}
+
+.status-badge.status-active {
+    background: #27ae60;
+    color: white;
+    border: none;
+}
+
+.status-badge.status-inactive {
+    background: #95a5a6;
+    color: white;
+    border: none;
 }
 
 /* Empty State for Tables */
@@ -2539,14 +2578,16 @@ td:first-child {
 
 /* Stock Badge Improvements */
 .stock-badge.low-stock {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    background: #e74c3c;
     color: white;
     animation: pulse 2s infinite;
+    border: none;
 }
 
 .stock-badge.in-stock {
-    background: linear-gradient(135deg, #51cf66, #40c057);
+    background: #27ae60;
     color: white;
+    border: none;
 }
 
 @keyframes pulse {
@@ -2557,23 +2598,27 @@ td:first-child {
 
 /* Status Badge Improvements */
 .status-badge.status-pending {
-    background: linear-gradient(135deg, #ffd43b, #fab005);
-    color: #495057;
+    background: #f39c12;
+    color: white;
+    border: none;
 }
 
 .status-badge.status-shipped {
-    background: linear-gradient(135deg, #74c0fc, #339af0);
+    background: #20b2aa;
     color: white;
+    border: none;
 }
 
 .status-badge.status-delivered {
-    background: linear-gradient(135deg, #51cf66, #40c057);
+    background: #27ae60;
     color: white;
+    border: none;
 }
 
 .status-badge.status-cancelled {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    background: #e74c3c;
     color: white;
+    border: none;
 }
 
 /* Action Button Improvements */
@@ -2632,17 +2677,17 @@ td:first-child {
     border-collapse: collapse;
     font-family: 'Courier New', monospace;
     font-size: 14px;
-    background: #f8f9fa;
+    background: var(--table-bg);
     margin: 20px 0;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--table-border);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .database-table thead {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: #ecf0f1;
+    background: var(--table-header-bg);
+    color: var(--table-text);
 }
 
 .database-table th {
@@ -2652,8 +2697,10 @@ td:first-child {
     font-family: 'Courier New', monospace;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-right: 1px solid rgba(236, 240, 241, 0.2);
+    border-right: 1px solid var(--table-border);
     position: relative;
+    background: var(--table-header-bg);
+    color: var(--table-text);
 }
 
 .database-table th:last-child {
@@ -2661,34 +2708,35 @@ td:first-child {
 }
 
 .database-table th.id-column {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    color: white;
+    background: var(--table-header-bg);
+    color: var(--table-text);
     font-weight: 700;
     text-align: center;
     min-width: 80px;
 }
 
 .database-table tbody tr {
-    background: white;
+    background: var(--table-bg);
     transition: all 0.3s ease;
 }
 
 .database-table tbody tr:nth-child(even) {
-    background: #f8f9fa;
+    background: #fafafa;
 }
 
 .database-table tbody tr:hover {
-    background: #e3f2fd;
+    background: var(--table-row-hover);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .database-table td {
     padding: 12px 15px;
-    border-right: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
+    border-right: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--table-border);
     vertical-align: middle;
     font-family: 'Courier New', monospace;
+    color: var(--table-text);
 }
 
 .database-table td:last-child {
@@ -2698,8 +2746,8 @@ td:first-child {
 .database-table td.id-column {
     text-align: center;
     font-weight: 700;
-    color: #2980b9;
-    background: rgba(52, 152, 219, 0.05);
+    color: var(--table-text);
+    background: var(--table-bg);
 }
 
 .database-table .null-value {
@@ -2992,12 +3040,12 @@ td:first-child {
 }
 
 .btn-edit {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #16a085 0%, #138d75 100%);
 }
 
 .btn-edit:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(22, 160, 133, 0.4);
 }
 
 .btn-delete {

@@ -152,50 +152,6 @@ if (!isset($_COOKIE['employee_theme'])) {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="employeedashboard.php">Dashboard</a></li>
-                    <li><a href="employee-orders.php">Orders</a></li>
-                    <li><a href="employee-products.php">Products</a></li>
-                    <li><a href="employee-shipments.php">Shipments</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#help">Help Center</a></li>
-                    <li><a href="#contact">Contact Support</a></li>
-                    <li><a href="#docs">Documentation</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Connect</h4>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Inventory Management. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#cookies">Cookie Policy</a>
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Quick Actions - Redirect to respective pages
         function showAddProductModal() {
@@ -394,7 +350,7 @@ if (!isset($_COOKIE['employee_theme'])) {
         
         .search-category h4 {
             margin: 0 0 10px 15px;
-            color: #7b5cf6;
+            color: #0c4a6e;
             font-size: 14px;
             font-weight: 600;
             text-transform: uppercase;
@@ -409,8 +365,8 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         .search-item:hover {
-            background-color: #f8f9ff;
-            border-left-color: #7b5cf6;
+            background-color: #f1f5f9;
+            border-left-color: #0c4a6e;
         }
         
         .search-title {
@@ -445,7 +401,7 @@ if (!isset($_COOKIE['employee_theme'])) {
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 15px;
-            border-left: 4px solid #7b5cf6;
+            border-left: 4px solid #0c4a6e;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
@@ -481,9 +437,9 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         .course-card:hover {
-            border-color: #7b5cf6;
+            border-color: #0c4a6e;
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(123, 92, 246, 0.2);
+            box-shadow: 0 15px 40px rgba(12, 74, 110, 0.15);
         }
         
         .course-card .title {
@@ -494,20 +450,20 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         .course-card button {
-            background: #7b5cf6;
+            background: #0c4a6e;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            width: 80%;
         }
         
         .course-card button:hover {
-            background: #6b46c1;
+            background: #083344;
             transform: translateY(-2px);
         }
         
@@ -540,7 +496,7 @@ if (!isset($_COOKIE['employee_theme'])) {
         .finance-card p {
             font-size: 36px;
             font-weight: 700;
-            color: #7b5cf6;
+            color: #0c4a6e;
             margin: 0;
             line-height: 1;
         }
@@ -603,8 +559,8 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         .search-box input:focus {
-            border-color: #7b5cf6;
-            box-shadow: 0 0 0 3px rgba(123, 92, 246, 0.1);
+            border-color: #0c4a6e;
+            box-shadow: 0 0 0 3px rgba(12, 74, 110, 0.1);
         }
         
         /* Enhanced welcome banner */
@@ -633,7 +589,7 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         .welcome-banner .date {
-            color: #7b5cf6;
+            color: #0c4a6e;
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;

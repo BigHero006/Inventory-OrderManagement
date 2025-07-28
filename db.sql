@@ -79,3 +79,8 @@ CREATE TABLE IF NOT EXISTS order_status_history (
     change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
+
+-- Insert default admin user
+INSERT INTO users (firstName, lastName, email, phone, address, role, password) 
+VALUES ('Admin', 'User', 'admin@gmail.com', '1234567890', 'Admin Address', 'Admin', MD5('Admin123'))
+ON DUPLICATE KEY UPDATE email = 'admin@gmail.com';

@@ -68,8 +68,12 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
     <style>
         .order-creation {
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             min-height: 100vh;
+        }
+        
+        .main-content {
+            margin-left: 280px;
         }
         
         .content-card {
@@ -418,51 +422,6 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="employeedashboard.php">Dashboard</a></li>
-                    <li><a href="employee-orders.php">Orders</a></li>
-                    <li><a href="employee-products.php">Products</a></li>
-                    <li><a href="employee-shipments.php">Shipments</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Order Creation</h4>
-                <ul>
-                    <li><a href="employee-create-order.php">Create Order</a></li>
-                    <li><a href="#customers">Manage Customers</a></li>
-                    <li><a href="#products">Browse Products</a></li>
-                    <li><a href="#templates">Order Templates</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Connect</h4>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Inventory Management. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#cookies">Cookie Policy</a>
-            </div>
-        </div>
-    </footer>
 
     <script>
         let itemCount = 1;

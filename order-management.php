@@ -212,51 +212,6 @@ try {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Management</h4>
-                <ul>
-                    <li><a href="admindashboard.php">Dashboard</a></li>
-                    <li><a href="order-management.php">Orders</a></li>
-                    <li><a href="product-management.php">Products</a></li>
-                    <li><a href="user-management.php">Users</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Order Actions</h4>
-                <ul>
-                    <li><a href="#create">Create Order</a></li>
-                    <li><a href="#process">Process Orders</a></li>
-                    <li><a href="#track">Track Shipments</a></li>
-                    <li><a href="#reports">Order Reports</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Tools</h4>
-                <div class="social-links">
-                    <a href="#analytics" aria-label="Analytics"><i class="fas fa-chart-bar"></i></a>
-                    <a href="#export" aria-label="Export"><i class="fas fa-download"></i></a>
-                    <a href="#print" aria-label="Print"><i class="fas fa-print"></i></a>
-                    <a href="#filter" aria-label="Filter"><i class="fas fa-filter"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Order Management. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#support">Support</a>
-            </div>
-        </div>
-    </footer>
-
     <!-- Edit Order Status Modal -->
     <div id="editOrderModal" class="modal">
         <div class="modal-content">

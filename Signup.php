@@ -1,27 +1,13 @@
 <?php
 require 'dbconnect.php';
 
-// Create admin account if it doesn't exist
-try {
-    $checkAdminStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
-    $checkAdminStmt->execute(['admin123@gmail.com']);
-    $adminCount = $checkAdminStmt->fetchColumn();
-    
-    if ($adminCount == 0) {
-        $adminPassword = md5('Admin123');
-        $adminStmt = $pdo->prepare('INSERT INTO users (firstName, lastName, email, phone, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        $adminStmt->execute(['Admin', 'User', 'admin123@gmail.com', '0000000000', '', 'Admin', $adminPassword]);
-    }
-} catch (PDOException $e) {
-    // Silent error handling for admin creation
-}
-
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $firstName = $_POST['fName'];
     $lastName = $_POST['lName'];
     $email = $_POST['email'];
     $phoneNumber = $_POST['phonenumber'];
-    $role = 'Employee'; // Automatically set role to Employee
+    // Automatically set role to Employee for all signups
+    $role = 'Employee';
     $password = md5($_POST['password']);
     $id = random_int(0, 999);
 
@@ -51,13 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Employee Registration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
         <div class="container" id="signup">
-        <h1 class="form-title">Sign up</h1>
+        <h1 class="form-title">Employee Registration</h1>
+        <p style="text-align: center; margin-bottom: 20px; color: #0c4a6e; font-size: 14px;">
+            <i class="fas fa-users"></i> Register as an Employee
+        </p>
         <form method="post" action="Signup.php">
             <div class="input-group">
                 <i class="fas fa-user"></i>

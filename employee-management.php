@@ -216,51 +216,6 @@ try {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Management</h4>
-                <ul>
-                    <li><a href="admindashboard.php">Dashboard</a></li>
-                    <li><a href="employee-management.php">Employees</a></li>
-                    <li><a href="user-management.php">Users</a></li>
-                    <li><a href="order-management.php">Orders</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Employee Actions</h4>
-                <ul>
-                    <li><a href="#add">Add Employee</a></li>
-                    <li><a href="#permissions">Permissions</a></li>
-                    <li><a href="#schedule">Schedules</a></li>
-                    <li><a href="#performance">Performance</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>HR Tools</h4>
-                <div class="social-links">
-                    <a href="#profiles" aria-label="Profiles"><i class="fas fa-user-circle"></i></a>
-                    <a href="#payroll" aria-label="Payroll"><i class="fas fa-money-check"></i></a>
-                    <a href="#attendance" aria-label="Attendance"><i class="fas fa-clock"></i></a>
-                    <a href="#reports" aria-label="Reports"><i class="fas fa-chart-line"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Employee Management. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#hr-policy">HR Policy</a>
-            </div>
-        </div>
-    </footer>
-
     <!-- Edit Employee Modal -->
     <div id="editEmployeeModal" class="modal">
         <div class="modal-content">

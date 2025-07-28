@@ -322,51 +322,6 @@ try {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Management</h4>
-                <ul>
-                    <li><a href="admindashboard.php">Dashboard</a></li>
-                    <li><a href="user-management.php">Users</a></li>
-                    <li><a href="order-management.php">Orders</a></li>
-                    <li><a href="product-management.php">Products</a></li>
-                    <li><a href="supplier-management.php">Suppliers</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Reports</h4>
-                <ul>
-                    <li><a href="financial-reports.php">Financial Reports</a></li>
-                    <li><a href="system-reports.php">System Reports</a></li>
-                    <li><a href="export-reports.php">Export Data</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>System</h4>
-                <div class="social-links">
-                    <a href="#settings" aria-label="Settings"><i class="fas fa-cog"></i></a>
-                    <a href="#backup" aria-label="Backup"><i class="fas fa-download"></i></a>
-                    <a href="#security" aria-label="Security"><i class="fas fa-shield-alt"></i></a>
-                    <a href="#logs" aria-label="Logs"><i class="fas fa-file-alt"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Admin Panel. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#security">Security Guidelines</a>
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Global variables
         let searchTimeout;

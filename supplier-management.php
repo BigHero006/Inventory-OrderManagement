@@ -269,51 +269,6 @@ try {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Wastu Inventory</h4>
-                <p>Efficient order and inventory management system designed for modern businesses.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Management</h4>
-                <ul>
-                    <li><a href="admindashboard.php">Dashboard</a></li>
-                    <li><a href="supplier-management.php">Suppliers</a></li>
-                    <li><a href="product-management.php">Products</a></li>
-                    <li><a href="order-management.php">Orders</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Supplier Actions</h4>
-                <ul>
-                    <li><a href="#add" onclick="showAddSupplierModal()">Add Supplier</a></li>
-                    <li><a href="#contacts">Contacts</a></li>
-                    <li><a href="#contracts">Contracts</a></li>
-                    <li><a href="#performance">Performance</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Tools</h4>
-                <div class="social-links">
-                    <a href="#directory" aria-label="Directory"><i class="fas fa-address-book"></i></a>
-                    <a href="#communication" aria-label="Communication"><i class="fas fa-comments"></i></a>
-                    <a href="#contracts" aria-label="Contracts"><i class="fas fa-file-contract"></i></a>
-                    <a href="#analytics" aria-label="Analytics"><i class="fas fa-analytics"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; <?php echo date('Y'); ?> Wastu Supplier Management. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#support">Support</a>
-            </div>
-        </div>
-    </footer>
-
     <!-- Add Supplier Modal -->
     <div id="addSupplierModal" class="modal">
         <div class="modal-content">
