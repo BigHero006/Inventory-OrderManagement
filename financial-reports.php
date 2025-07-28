@@ -157,61 +157,6 @@ try {
                     </div>
                 </div>
             </div>
-
-            <!-- Recent Revenue Transactions -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>Recent Revenue Transactions</h3>
-                    <div class="search-filter">
-                        <select id="timeFilter">
-                            <option value="all">All Time</option>
-                            <option value="today">Today</option>
-                            <option value="week">This Week</option>
-                            <option value="month">This Month</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table class="financial-table" id="financialTable">
-                        <thead>
-                            <tr>
-                                <th class="sortable">Transaction ID</th>
-                                <th class="sortable">Customer</th>
-                                <th class="sortable">Date</th>
-                                <th class="sortable">Order Status</th>
-                                <th class="sortable">Amount</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($recentOrders as $order): ?>
-                            <tr>
-                                <td>#<?php echo $order['order_id']; ?></td>
-                                <td>
-                                    <div class="customer-info">
-                                        <i class="fas fa-user-circle"></i>
-                                        <span><?php echo htmlspecialchars($order['customer_name'] ?? 'N/A'); ?></span>
-                                    </div>
-                                </td>
-                                <td><?php echo date('M j, Y', strtotime($order['order_date'])); ?></td>
-                                <td>
-                                    <span class="status-badge status-<?php echo strtolower($order['status']); ?>">
-                                        <?php echo $order['status']; ?>
-                                    </span>
-                                </td>
-                                <td class="amount-cell">$<?php echo number_format($order['total_amount'] ?? 0, 2); ?></td>
-                                <td>
-                                    <button class="btn-view" onclick="viewTransaction(<?php echo $order['order_id']; ?>)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
             <!-- Financial Charts Section -->
             <div class="content-card">
                 <div class="card-header">
