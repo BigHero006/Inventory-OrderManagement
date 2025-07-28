@@ -203,7 +203,7 @@ try {
                                 <td><?php echo htmlspecialchars($product['name']); ?></td>
                                 <td><?php echo htmlspecialchars($product['description'] ?? ''); ?></td>
                                 <td><?php echo htmlspecialchars($product['category'] ?? ''); ?></td>
-                                <td><?php echo number_format($product['price'] ?? 0, 2); ?></td>
+                                <td><span class="product-price">Rs <?php echo number_format($product['price'], 2); ?></span></td>
                                 <td class="id-column"><?php echo $product['supplier_id'] ?? '<span class="null-value">NULL</span>'; ?></td>
                                 <td><?php echo $product['created_at'] ?? '<span class="null-value">NULL</span>'; ?></td>
                                 <td><?php echo $product['updated_at'] ?? '<span class="null-value">NULL</span>'; ?></td>
@@ -453,7 +453,7 @@ try {
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="edit_price">Price ($)</label>
+                            <label for="edit_price">Price (Rs)</label>
                             <input type="number" id="edit_price" name="price" step="0.01" min="0" required>
                         </div>
                         <div class="form-group">

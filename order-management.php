@@ -184,7 +184,7 @@ try {
                                 <td><?php echo $order['order_id']; ?></td>
                                 <td><?php echo $order['user_id']; ?></td>
                                 <td><?php echo date('M j, Y H:i:s', strtotime($order['order_date'])); ?></td>
-                                <td>$<?php echo number_format($order['total_amount'] ?? 0, 2); ?></td>
+                                <td>Rs <?php echo number_format($order['total_amount'] ?? 0, 2); ?></td>
                                 <td>
                                     <span class="status-badge status-<?php echo strtolower($order['status']); ?>">
                                         <?php echo $order['status']; ?>
@@ -274,7 +274,7 @@ try {
                                 <p><strong>Order ID:</strong> #${data.order.order_id}</p>
                                 <p><strong>Customer:</strong> ${data.order.customer_name || 'N/A'}</p>
                                 <p><strong>Date:</strong> ${new Date(data.order.order_date).toLocaleDateString()}</p>
-                                <p><strong>Amount:</strong> $${parseFloat(data.order.total_amount || 0).toFixed(2)}</p>
+                                <p><strong>Amount:</strong> Rs ${parseFloat(data.order.total_amount || 0).toFixed(2)}</p>
                                 <p><strong>Current Status:</strong> <span class="status-badge status-${data.order.status.toLowerCase()}">${data.order.status}</span></p>
                             </div>
                         `;
@@ -293,7 +293,7 @@ try {
 
         function cancelOrder(orderId) {
             if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
-                // Create a form to submit the cancel request
+                
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.style.display = 'none';
@@ -316,12 +316,12 @@ try {
             }
         }
 
-        // Modal functions
+        
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Close modal when clicking outside
+        
         window.addEventListener('click', function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let modal of modals) {

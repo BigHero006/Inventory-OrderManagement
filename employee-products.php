@@ -428,7 +428,7 @@ $suppliers = $employee->getSuppliers();
             <div class="product-card" data-category="<?php echo htmlspecialchars($product['category'] ?? ''); ?>">
                 <div class="product-header">
                     <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                    <div class="product-price">$<?php echo number_format($product['price'], 2); ?></div>
+                    <div class="product-price">Rs <?php echo number_format($product['price'], 2); ?></div>
                 </div>
                 <div class="product-details">
                     <div class="product-category"><?php echo htmlspecialchars($product['category'] ?? 'Uncategorized'); ?></div>
@@ -638,7 +638,7 @@ $suppliers = $employee->getSuppliers();
                 const text = card.textContent.toLowerCase();
                 if (text.includes(query.toLowerCase())) {
                     const productName = card.querySelector('h4').textContent;
-                    const productPrice = card.querySelector('.product-price').textContent;
+                    const productPrice = 'Rs ' + card.querySelector('.product-price').textContent.replace(/^\$|^Rs /, '');
                     matchingProducts.push({
                         name: productName,
                         price: productPrice

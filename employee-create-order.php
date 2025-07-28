@@ -380,7 +380,7 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="">Select product...</option>
                                 <?php foreach ($products as $product): ?>
                                 <option value="<?php echo $product['product_id']; ?>" data-price="<?php echo $product['price']; ?>">
-                                    <?php echo htmlspecialchars($product['name']) . ' - $' . number_format($product['price'], 2); ?>
+                                    <?php echo htmlspecialchars($product['name']) . ' - Rs ' . number_format($product['price'], 2); ?>
                                 </option>
                                 <?php endforeach; ?>
                             </select>
@@ -410,7 +410,7 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="order-summary">
                     <h4>Order Summary</h4>
                     <div class="total-amount">
-                        Total: $<span id="totalDisplay">0.00</span>
+                        Total: Rs <span id="totalDisplay">0.00</span>
                     </div>
                 </div>
             </div>
@@ -480,7 +480,7 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
                         <option value="">Select product...</option>
                         <?php foreach ($products as $product): ?>
                         <option value="<?php echo $product['product_id']; ?>" data-price="<?php echo $product['price']; ?>">
-                            <?php echo htmlspecialchars($product['name']) . ' - $' . number_format($product['price'], 2); ?>
+                            <?php echo htmlspecialchars($product['name']) . ' - Rs ' . number_format($product['price'], 2); ?>
                         </option>
                         <?php endforeach; ?>
                     </select>
@@ -613,7 +613,7 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
                     html += `
                         <div class="search-item" onclick="selectProduct('${product.value}', '${product.name}')">
                             <div class="search-title">${product.name}</div>
-                            <div class="search-meta">Price: ${product.price}</div>
+                            <div class="search-meta">Price: Rs ${product.price}</div>
                         </div>
                     `;
                 });

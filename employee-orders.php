@@ -407,7 +407,7 @@ $orders = $employee->getAllOrders();
                     <td>#<?php echo $order['order_id']; ?></td>
                     <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
                     <td><?php echo date('M j, Y', strtotime($order['order_date'])); ?></td>
-                    <td>$<?php echo number_format($order['total_amount'], 2); ?></td>
+                    <td>Rs <?php echo number_format($order['total_amount'], 2); ?></td>
                     <td>
                         <span class="status-badge status-<?php echo $order['status']; ?>">
                             <?php echo ucfirst($order['status']); ?>
@@ -625,7 +625,7 @@ $orders = $employee->getAllOrders();
                     <td>#${order.order_id}</td>
                     <td>${escapeHtml(order.customer_name)}</td>
                     <td>${formatDate(order.order_date)}</td>
-                    <td>$${parseFloat(order.total_amount).toFixed(2)}</td>
+                    <td>Rs ${parseFloat(order.total_amount).toFixed(2)}</td>
                     <td>
                         <span class="status-badge status-${order.status}">
                             ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -696,7 +696,7 @@ $orders = $employee->getAllOrders();
                     html += `
                         <div class="search-item" onclick="highlightOrder(${order.order_id})">
                             <div class="search-title">Order #${order.order_id} - ${order.customer_name}</div>
-                            <div class="search-meta">$${parseFloat(order.total_amount).toFixed(2)} • ${order.status}</div>
+                            <div class="search-meta">Rs ${parseFloat(order.total_amount).toFixed(2)} • ${order.status}</div>
                         </div>
                     `;
                 });
