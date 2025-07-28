@@ -289,7 +289,61 @@ try {
         }
 
         function editProduct(productId) {
-            alert(`Edit product with ID: ${productId}`);
+            // Fetch product data from API
+            fetch(`api/admin_api.php?action=get_product&id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const product = data.product;
+                        
+                        // Populate form fields
+                        document.getElementById('edit_product_id').value = product.product_id;
+                        document.getElementById('edit_name').value = product.name;
+                        document.getElementById('edit_description').value = product.description;
+                        document.getElementById('edit_price').value = product.price;
+                        document.getElementById('edit_quantity').value = product.quantity;
+                        document.getElementById('edit_category').value = product.category;
+                        document.getElementById('edit_supplier_id').value = product.supplier_id;
+                        
+                        // Show modal
+                        document.getElementById('editProductModal').style.display = 'flex';
+                    } else {
+                        alert('Error loading product data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading product data');
+                });
+        }
+        
+        function updateProduct() {
+            const form = document.getElementById('editProductForm');
+            const formData = new FormData(form);
+            formData.append('action', 'update_product');
+            
+            fetch('api/admin_api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Product updated successfully!');
+                    closeModal('editProductModal');
+                    location.reload(); // Refresh the page to show updated data
+                } else {
+                    alert('Error updating product: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating product');
+            });
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         function deleteProduct(productId) {
@@ -378,5 +432,69 @@ try {
             });
         }
     </script>
+    
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <span class="close" onclick="closeModal('editProductModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="edit_product_id" name="product_id">
+                    <div class="form-group">
+                        <label for="edit_name">Product Name</label>
+                        <input type="text" id="edit_name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_description">Description</label>
+                        <textarea id="edit_description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit_price">Price ($)</label>
+                            <input type="number" id="edit_price" name="price" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_quantity">Quantity</label>
+                            <input type="number" id="edit_quantity" name="quantity" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit_category">Category</label>
+                            <select id="edit_category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Grains">Grains</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_supplier_id">Supplier</label>
+                            <select id="edit_supplier_id" name="supplier_id" required>
+                                <option value="">Select Supplier</option>
+                                <?php foreach ($suppliers as $supplier): ?>
+                                    <option value="<?php echo $supplier['supplier_id']; ?>">
+                                        <?php echo htmlspecialchars($supplier['company_name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('editProductModal')">Cancel</button>
+                <button type="button" class="btn-primary" onclick="updateProduct()">Update Product</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

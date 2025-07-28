@@ -237,6 +237,19 @@ class Admin {
         return $stmt->execute([$role, $userId]);
     }
     
+    public function getUserById($userId) {
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch();
+    }
+    
+    public function updateUser($userId, $firstName, $lastName, $email, $phone, $address, $role) {
+        $stmt = $this->db->getConnection()->prepare(
+            "UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ?, address = ?, role = ? WHERE id = ?"
+        );
+        return $stmt->execute([$firstName, $lastName, $email, $phone, $address, $role, $userId]);
+    }
+    
     public function searchRecords($query, $type = 'all') {
         $results = [];
         
@@ -262,6 +275,21 @@ class Admin {
             $stmt->execute([$searchTerm, $searchTerm]);
             $productResults = $stmt->fetchAll();
             foreach ($productResults as $row) {
+                $results[] = $row;
+            }
+        }
+        
+        if ($type === 'all' || $type === 'orders') {
+            $sql = "SELECT 'order' as type, order_id as id, 
+                           CONCAT('Order #', order_id) as name, 
+                           status as category 
+                    FROM orders 
+                    WHERE order_id LIKE ? OR status LIKE ?";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $searchTerm = "%$query%";
+            $stmt->execute([$searchTerm, $searchTerm]);
+            $orderResults = $stmt->fetchAll();
+            foreach ($orderResults as $row) {
                 $results[] = $row;
             }
         }
@@ -305,6 +333,19 @@ class Admin {
         $stmt = $this->db->getConnection()->prepare($query);
         $stmt->execute([$limit]);
         return $stmt->fetchAll();
+    }
+    
+    public function getProductById($productId) {
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM products WHERE product_id = ?");
+        $stmt->execute([$productId]);
+        return $stmt->fetch();
+    }
+    
+    public function updateProduct($productId, $name, $description, $price, $category, $quantity, $supplierId) {
+        $stmt = $this->db->getConnection()->prepare(
+            "UPDATE products SET name = ?, description = ?, price = ?, category = ?, quantity = ?, supplier_id = ? WHERE product_id = ?"
+        );
+        return $stmt->execute([$name, $description, $price, $category, $quantity, $supplierId, $productId]);
     }
 }
 ?>

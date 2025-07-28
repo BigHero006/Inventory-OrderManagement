@@ -41,6 +41,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $messageType = 'error';
                 }
                 break;
+                
+            case 'edit_user':
+                try {
+                    $success = $admin->updateUser(
+                        $_POST['user_id'],
+                        $_POST['firstName'],
+                        $_POST['lastName'],
+                        $_POST['email'],
+                        $_POST['phone'] ?? '',
+                        $_POST['address'] ?? '',
+                        $_POST['role']
+                    );
+                    
+                    if ($success) {
+                        $message = 'User updated successfully!';
+                        $messageType = 'success';
+                        // Add JavaScript to close modal after success
+                        echo "<script>document.addEventListener('DOMContentLoaded', function() { setTimeout(function() { if(document.querySelector('.alert-success')) { closeModal('editUserModal'); } }, 1000); });</script>";
+                    } else {
+                        $message = 'Failed to update user.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
         }
     }
 }
@@ -243,6 +270,54 @@ $users = $admin->getAllUsers();
         </div>
     </div>
 
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit User</h3>
+                <span class="close" onclick="closeModal('editUserModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" method="POST" action="">
+                    <input type="hidden" name="action" value="edit_user">
+                    <input type="hidden" id="editUserId" name="user_id" value="">
+                    <div class="form-group">
+                        <label for="editFirstName">First Name</label>
+                        <input type="text" id="editFirstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name</label>
+                        <input type="text" id="editLastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <textarea id="editAddress" name="address" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRole">Role</label>
+                        <select id="editRole" name="role" required>
+                            <option value="">Select Role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Employee">Employee</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('editUserModal')">Cancel</button>
+                <button type="submit" form="editUserForm" class="btn-primary">Update User</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Modal functions
         function showAddUserModal() {
@@ -269,7 +344,7 @@ $users = $admin->getAllUsers();
             });
         }
 
-        // Form validation
+        // Form validation for add user
         document.getElementById('addUserForm').addEventListener('submit', function(e) {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -291,6 +366,21 @@ $users = $admin->getAllUsers();
             
             return true;
         });
+        
+        // Form validation for edit user
+        document.getElementById('editUserForm').addEventListener('submit', function(e) {
+            const email = document.getElementById('editEmail').value;
+            
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Please enter a valid email address');
+                return false;
+            }
+            
+            return true;
+        });
 
         // User management functions
         function exportUsersReport() {
@@ -298,8 +388,33 @@ $users = $admin->getAllUsers();
         }
 
         function editUser(userId) {
-            // Implementation for editing user
-            alert(`Edit user with ID: ${userId}`);
+            // Fetch user data and populate the edit modal
+            fetch(`api/admin_api.php?action=get_user&id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const user = data.user;
+                        document.getElementById('editUserId').value = user.id;
+                        document.getElementById('editFirstName').value = user.firstName;
+                        document.getElementById('editLastName').value = user.lastName;
+                        document.getElementById('editEmail').value = user.email;
+                        document.getElementById('editPhone').value = user.phone || '';
+                        document.getElementById('editAddress').value = user.address || '';
+                        document.getElementById('editRole').value = user.role;
+                        
+                        // Show the edit modal
+                        const modal = document.getElementById('editUserModal');
+                        modal.style.display = 'flex';
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        alert('Failed to load user data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while loading user data');
+                });
         }
 
         function deleteUser(userId) {

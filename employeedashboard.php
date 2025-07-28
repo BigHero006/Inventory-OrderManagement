@@ -107,7 +107,7 @@ if (!isset($_COOKIE['employee_theme'])) {
                     </div>
                     <div class="finance-card glass-card">
                         <h3>Pending Orders</h3>
-                        <p style="color: #ff6b6b;"><?php echo $stats['pending_orders']; ?></p>
+                        <p style="color: #9ca3af;"><?php echo $stats['pending_orders']; ?></p>
                         <small>Need attention</small>
                     </div>
                 </div>
@@ -388,7 +388,7 @@ if (!isset($_COOKIE['employee_theme'])) {
         }
         
         /* Status colors */
-        .status-pending { color: #ff9800; font-weight: bold; }
+        .status-pending { color: #9ca3af; font-weight: bold; }
         .status-shipped { color: #2196f3; font-weight: bold; }
         .status-delivered { color: #4caf50; font-weight: bold; }
         .status-cancelled { color: #f44336; font-weight: bold; }

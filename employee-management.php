@@ -220,39 +220,35 @@ try {
     <div id="editEmployeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-user-edit"></i> Edit Employee</h3>
+                <h3>Edit Employee</h3>
                 <span class="close" onclick="closeModal('editEmployeeModal')">&times;</span>
             </div>
-            <form id="editEmployeeForm" method="POST">
-                <input type="hidden" name="action" value="edit_employee">
-                <input type="hidden" name="employee_id" id="editEmployeeId">
-                
-                <div class="form-group">
-                    <label for="editFirstName"><i class="fas fa-user"></i> First Name</label>
-                    <input type="text" id="editFirstName" name="firstName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editLastName"><i class="fas fa-user"></i> Last Name</label>
-                    <input type="text" id="editLastName" name="lastName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="editEmail" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editPhone"><i class="fas fa-phone"></i> Phone</label>
-                    <input type="tel" id="editPhone" name="phone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address</label>
-                    <textarea id="editAddress" name="address" rows="3"></textarea>
-                </div>
-            </form>
-            
+            <div class="modal-body">
+                <form id="editEmployeeForm" method="POST">
+                    <input type="hidden" name="action" value="edit_employee">
+                    <input type="hidden" name="employee_id" id="editEmployeeId">
+                    <div class="form-group">
+                        <label for="editFirstName">First Name</label>
+                        <input type="text" id="editFirstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last Name</label>
+                        <input type="text" id="editLastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <textarea id="editAddress" name="address" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" onclick="closeModal('editEmployeeModal')">Cancel</button>
                 <button type="submit" form="editEmployeeForm" class="btn-primary">Update Employee</button>
@@ -444,4 +440,3 @@ try {
     </style>
 </body>
 </html>
-                           

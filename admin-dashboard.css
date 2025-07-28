@@ -1498,7 +1498,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing-lg) var(--spacing-xl);
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: #1a1a1a;
     color: white;
     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
     position: sticky;

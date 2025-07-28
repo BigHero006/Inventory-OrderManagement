@@ -47,6 +47,20 @@ class ApiHandler {
                 echo json_encode(['success' => true, 'data' => $users]);
                 break;
                 
+            case 'get_user':
+                $userId = $_GET['id'] ?? 0;
+                try {
+                    $user = $this->admin->getUserById($userId);
+                    if ($user) {
+                        echo json_encode(['success' => true, 'user' => $user]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'User not found']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
             case 'stats':
                 $userStats = $this->admin->getUserStats();
                 $orderStats = $this->admin->getOrderStats();
@@ -108,6 +122,20 @@ class ApiHandler {
                 }
                 break;
                 
+            case 'get_product':
+                $productId = $_GET['id'] ?? 0;
+                try {
+                    $product = $this->admin->getProductById($productId);
+                    if ($product) {
+                        echo json_encode(['success' => true, 'product' => $product]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Product not found']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
             default:
                 echo json_encode(['error' => 'Invalid action']);
         }
@@ -124,6 +152,27 @@ class ApiHandler {
                     echo json_encode(['success' => true, 'message' => 'User role updated successfully']);
                 } else {
                     echo json_encode(['success' => false, 'message' => 'Failed to update user role']);
+                }
+                break;
+                
+            case 'update_user':
+                $input = json_decode(file_get_contents('php://input'), true);
+                $userId = $input['user_id'] ?? 0;
+                $firstName = $input['firstName'] ?? '';
+                $lastName = $input['lastName'] ?? '';
+                $email = $input['email'] ?? '';
+                $phone = $input['phone'] ?? '';
+                $address = $input['address'] ?? '';
+                $role = $input['role'] ?? '';
+                
+                try {
+                    if ($this->admin->updateUser($userId, $firstName, $lastName, $email, $phone, $address, $role)) {
+                        echo json_encode(['success' => true, 'message' => 'User updated successfully']);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Failed to update user']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
                 }
                 break;
                 
@@ -166,6 +215,26 @@ class ApiHandler {
                         echo json_encode(['success' => true, 'message' => 'Supplier added successfully']);
                     } else {
                         echo json_encode(['success' => false, 'message' => 'Failed to add supplier']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
+            case 'update_product':
+                $productId = $_POST['product_id'] ?? 0;
+                $name = $_POST['name'] ?? '';
+                $description = $_POST['description'] ?? '';
+                $price = $_POST['price'] ?? 0;
+                $category = $_POST['category'] ?? '';
+                $quantity = $_POST['quantity'] ?? 0;
+                $supplierId = $_POST['supplier_id'] ?? 0;
+                
+                try {
+                    if ($this->admin->updateProduct($productId, $name, $description, $price, $category, $quantity, $supplierId)) {
+                        echo json_encode(['success' => true, 'message' => 'Product updated successfully']);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Failed to update product']);
                     }
                 } catch (Exception $e) {
                     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);

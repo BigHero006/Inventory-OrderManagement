@@ -1,25 +1,39 @@
 /* Employee Dashboard Enhanced Styles - White Background Theme */
 
-/* Global Variables - Lighter Deep Sea Theme Throughout */
+/* Global Variables - Exact Admin Dashboard Colors */
 :root {
-    /* Primary Deep Sea Colors - Lighter Shades */
-    --primary-color: #0c4a6e;           /* Lighter Deep Sea Blue */
-    --primary-hover: #083344;           /* Deep Sea Blue for hover */
-    --secondary-color: #0369a1;         /* Ocean Blue */
-    --accent-color: #0284c7;            /* Light Ocean Blue accent */
-    --success-color: #0891b2;           /* Light Sea Green */
-    --warning-color: #d97706;           /* Orange */
-    --error-color: #dc2626;             /* Red */
+    /* Primary Colors - Exact Match to Admin */
+    --primary-color: #0c4a6e;           /* Deep Ocean Blue */
+    --primary-dark: #083344;            /* Deeper Sea Blue */
+    --primary-light: #0369a1;           /* Lighter Ocean Blue */
+    --primary-gradient: linear-gradient(135deg, #7dd3fc 0%, #0369a1 100%);
+    --accent-color: #0284c7;            /* Accent Ocean Blue */
+    --accent-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+    
+    /* Background Colors - Exact Match to Admin */
+    --bg-primary: #f0f9ff;              /* Very Light Ocean Tint */
+    --bg-secondary: #e0f2fe;            /* Light Ocean Tint */
+    --bg-dark: #083344;                 /* Deep Sea for contrast */
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-overlay: rgba(12, 74, 110, 0.05);  /* Subtle Ocean Overlay */
+    
+    /* Text Colors - Exact Match to Admin */
+    --text-primary: #042f2e;            /* Very Dark Sea Green (almost black) */
+    --text-secondary: #083344;          /* Dark Ocean Blue */
+    --text-muted: #0f766e;              /* Medium Sea Teal */
+    --text-white: #ffffff;
+    --text-light: #f8fafc;              /* Very Light text */
+    
+    /* Status Colors */
+    --success-color: #10b981;           /* Emerald */
+    --warning-color: #f59e0b;           /* Amber */
+    --error-color: #ef4444;             /* Red */
+    --info-color: #3b82f6;              /* Blue */
+    
+    /* Background for main content */
     --background-color: #ffffff;        /* Pure White Background */
     --card-shadow: 0 8px 32px rgba(12, 74, 110, 0.12);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Text Colors optimized for lighter deep sea theme */
-    --text-primary: #0c4a6e;            /* Lighter Deep Sea Blue for main text */
-    --text-secondary: #0369a1;          /* Ocean Blue for secondary text */
-    --text-muted: #6b7280;              /* Medium Gray for muted text */
-    --text-white: #ffffff;              /* White text for sidebar */
-    --text-light: #f8fafc;              /* Very Light text */
     
     /* Table Colors - Light Deep Sea Theme */
     --table-bg: #ffffff;                /* Pure White */
@@ -28,11 +42,32 @@
     --table-border: #cbd5e1;            /* Blue Gray Border */
     --table-text: #0c4a6e;              /* Lighter Deep Sea Blue Text */
     
-    /* Sidebar - Match Admin Dashboard */
+    /* Sidebar - Exact Match to Admin */
     --sidebar-width: 280px;
-    --primary-gradient: linear-gradient(135deg, #7dd3fc 0%, #0369a1 100%);
     --sidebar-hover: #083344;           /* Darker Sea hover */
     --sidebar-active: #0369a1;          /* Ocean Blue active state */
+    
+    /* Borders and Shadows - Exact Match to Admin */
+    --border-color: #0369a1;            /* Light Ocean Blue Border */
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --shadow-sm: 0 2px 4px rgba(12, 74, 110, 0.08);
+    --shadow-md: 0 4px 12px rgba(12, 74, 110, 0.15);
+    --shadow-lg: 0 8px 25px rgba(12, 74, 110, 0.2);
+    --shadow-xl: 0 20px 40px rgba(12, 74, 110, 0.15);
+    
+    /* Spacing - Exact Match to Admin */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    
+    /* Glassmorphism - Exact Match to Admin */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(20px);
 }
 
 /* Enhanced Body Styles - White Background */
@@ -221,6 +256,8 @@ html, body {
     justify-content: space-between;
     align-items: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 10;
 }
 
 /* Enhanced Search Box */
@@ -228,6 +265,7 @@ html, body {
     position: relative;
     flex: 1;
     max-width: 500px;
+    z-index: 100;
 }
 
 .search-box input {
@@ -251,6 +289,104 @@ html, body {
 
 .search-box input::placeholder {
     color: #9ca3af;
+}
+
+/* Search Results Dropdown */
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid rgba(12, 74, 110, 0.1);
+    border-radius: 15px;
+    margin-top: 5px;
+    box-shadow: var(--shadow-lg);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.search-results.show {
+    display: block;
+}
+
+.search-category {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(12, 74, 110, 0.05);
+}
+
+.search-category:last-child {
+    border-bottom: none;
+}
+
+.search-category h4 {
+    color: var(--primary-color);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.search-item {
+    padding: 10px 0;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 5px 0;
+}
+
+.search-item:hover {
+    background: rgba(12, 74, 110, 0.05);
+}
+
+.search-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.search-meta {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.search-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.search-result-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(12, 74, 110, 0.05);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-result-item:hover {
+    background: rgba(12, 74, 110, 0.05);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.search-result-description {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 2px;
 }
 
 /* Enhanced User Info */
@@ -294,74 +430,72 @@ html, body {
     font-weight: 500;
 }
 
-/* Enhanced Welcome Banner */
+/* Enhanced Welcome Banner - Exact Admin Dashboard Match */
 .welcome-banner {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 25px;
-    padding: 40px;
-    margin-bottom: 30px;
-    box-shadow: var(--card-shadow);
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    overflow: hidden;
 }
 
 .welcome-banner::before {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(12, 74, 110, 0.05), transparent);
-    animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    opacity: 0.1;
+    transform: translate(50%, -50%);
 }
 
 .welcome-banner .text {
     flex: 1;
-    z-index: 1;
+    z-index: 2;
+    position: relative;
 }
 
 .welcome-banner .date {
-    color: var(--secondary-color);
+    color: var(--text-white);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 8px;
+    margin-bottom: var(--spacing-sm);
 }
 
 .welcome-banner h2 {
-    color: var(--text-primary);
-    margin: 15px 0;
-    font-size: 32px;
+    color: var(--text-white);
+    margin: var(--spacing-md) 0;
+    font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-banner p {
-    color: var(--text-secondary);
-    font-size: 16px;
+    color: var(--text-white);
+    font-size: 1.1rem;
     line-height: 1.6;
     margin: 0;
+    max-width: 600px;
+    opacity: 0.9;
 }
 
 .welcome-banner .image {
-    color: rgba(12, 74, 110, 0.2);
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    position: relative;
 }
 
 /* Enhanced Finance Cards */
@@ -507,9 +641,9 @@ html, body {
 
 /* Status Badges */
 .status-pending { 
-    color: var(--warning-color); 
+    color: #6b7280; 
     font-weight: 700;
-    background: rgba(217, 119, 6, 0.1);
+    background: rgba(107, 114, 128, 0.1);
     padding: 4px 8px;
     border-radius: 6px;
 }
@@ -616,7 +750,7 @@ html, body {
 }
 
 .course-card button {
-    background: var(--primary-color);
+    background: #7dd3fc;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -628,7 +762,7 @@ html, body {
     width: 80%;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(12, 74, 110, 0.2);
+    box-shadow: 0 3px 10px rgba(125, 211, 252, 0.2);
 }
 
 .course-card button::before {
@@ -647,9 +781,9 @@ html, body {
 }
 
 .course-card button:hover {
-    background: var(--primary-hover);
+    background: #38bdf8;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(12, 74, 110, 0.3);
+    box-shadow: 0 8px 20px rgba(125, 211, 252, 0.3);
 }
 
 /* Responsive Design */
@@ -1089,7 +1223,7 @@ html, body {
 }
 
 .status-pending {
-    background: #d97706;
+    background: #6b7280;
     color: white;
 }
 

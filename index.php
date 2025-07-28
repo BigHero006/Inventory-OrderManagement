@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Vastu Inventory Management System</title>
+    <title>Welcome to Wastu Inventory Management System</title>
     <link rel="stylesheet" href="welcome-style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-boxes"></i>
-                <span>Vastu IMS</span>
+                <span>Wastu IMS</span>
             </div>
             <div class="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
@@ -29,7 +29,7 @@
     <section id="home" class="hero">
         <div class="hero-container">
             <div class="hero-content">
-                <h1 class="hero-title">Vastu Inventory Management System</h1>
+                <h1 class="hero-title">Wastu Inventory Management System</h1>
                 <p class="hero-subtitle">Streamline your business operations with our comprehensive inventory management solution</p>
                 <div class="hero-buttons">
                     <a href="Signin.php" class="btn-primary">Get Started</a>
@@ -42,7 +42,6 @@
         </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
             <h2 class="section-title">Key Features</h2>
@@ -93,13 +92,13 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    
     <section id="about" class="about">
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2>About Vastu IMS</h2>
-                    <p>Vastu Inventory Management System is a comprehensive business solution designed to streamline your inventory operations. Built with modern web technologies, our system provides a robust platform for managing all aspects of your business inventory.</p>
+                    <h2>About Wastu IMS</h2>
+                    <p>Wastu Inventory Management System is a comprehensive business solution designed to streamline your inventory operations. Built with modern web technologies, our system provides a robust platform for managing all aspects of your business inventory.</p>
                     <div class="about-features">
                         <div class="about-feature">
                             <i class="fas fa-check"></i>
@@ -150,7 +149,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <h2 class="section-title">Get In Touch</h2>
@@ -158,15 +156,15 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span>support@vastuims.com</span>
+                        <span>support@wastu.com</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span>+1 (555) 123-4567</span>
+                        <span>(+01) 4258647</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>123 Business Street, Suite 100</span>
+                        <span>Dhobidhara,Kathamndu </span>
                     </div>
                 </div>
             </div>
@@ -180,7 +178,7 @@
                 <div class="footer-section">
                     <div class="footer-logo">
                         <i class="fas fa-boxes"></i>
-                        <span>Vastu IMS</span>
+                        <span>Wastu IMS</span>
                     </div>
                     <p>Comprehensive inventory management solution for modern businesses.</p>
                 </div>
@@ -213,7 +211,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Vastu Inventory Management System. All rights reserved.</p>
+                <p>&copy; 2025 Wastu Inventory Management System. All rights reserved.</p>
             </div>
         </div>
     </footer>

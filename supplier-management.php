@@ -313,39 +313,35 @@ try {
     <div id="editSupplierModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Edit Supplier</h3>
+                <h3>Edit Supplier</h3>
                 <span class="close" onclick="closeModal('editSupplierModal')">&times;</span>
             </div>
-            <form id="editSupplierForm" method="POST">
-                <input type="hidden" name="action" value="edit_supplier">
-                <input type="hidden" name="supplier_id" id="editSupplierId">
-                
-                <div class="form-group">
-                    <label for="editCompanyName"><i class="fas fa-building"></i> Company Name</label>
-                    <input type="text" id="editCompanyName" name="company_name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editContactPerson"><i class="fas fa-user"></i> Contact Person</label>
-                    <input type="text" id="editContactPerson" name="contact_person">
-                </div>
-                
-                <div class="form-group">
-                    <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="editEmail" name="email">
-                </div>
-                
-                <div class="form-group">
-                    <label for="editPhone"><i class="fas fa-phone"></i> Phone</label>
-                    <input type="tel" id="editPhone" name="phone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address</label>
-                    <textarea id="editAddress" name="address" rows="3"></textarea>
-                </div>
-            </form>
-            
+            <div class="modal-body">
+                <form id="editSupplierForm" method="POST">
+                    <input type="hidden" name="action" value="edit_supplier">
+                    <input type="hidden" name="supplier_id" id="editSupplierId">
+                    <div class="form-group">
+                        <label for="editCompanyName">Company Name</label>
+                        <input type="text" id="editCompanyName" name="company_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editContactPerson">Contact Person</label>
+                        <input type="text" id="editContactPerson" name="contact_person">
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <textarea id="editAddress" name="address" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" onclick="closeModal('editSupplierModal')">Cancel</button>
                 <button type="submit" form="editSupplierForm" class="btn-primary">Update Supplier</button>
