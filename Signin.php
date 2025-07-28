@@ -2,6 +2,7 @@
 session_start();
 require 'dbconnect.php';
 
+$errorMsg = '';
 if (isset($_POST['email']) && $_POST['email'] != null) {
     $email = $_POST['email'];
     $password = md5($_POST['password']);
@@ -19,7 +20,7 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
             $_SESSION['phone'] = $value['phone'] ?? '';
             $_SESSION['role'] = $value['role'];
             $_SESSION['profile_photo'] = $value['profile_photo'] ?? '';
-           
+
             if ($value['role'] === 'Admin') {
                 header('Location: admindashboard.php');
             } elseif ($value['role'] === 'Employee') {
@@ -30,10 +31,10 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
             }
             exit();
         } else {
-            echo "<div style='color: red; text-align: center; margin: 20px;'>Invalid email or password!</div>";
+            $errorMsg = 'Invalid email or password!';
         }
     } catch (PDOException $e) {
-        echo "<div style='color: red; text-align: center; margin: 20px;'>Database error: " . htmlspecialchars($e->getMessage()) . "</div>";
+        $errorMsg = 'Database error: ' . htmlspecialchars($e->getMessage());
     }
 }
 ?>
@@ -48,6 +49,12 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
+    <?php if (!empty($errorMsg)): ?>
+    <div class="error-box" id="loginErrorBox">
+        <div><?php echo $errorMsg; ?></div>
+        <button onclick="document.getElementById('loginErrorBox').style.display='none'">OK</button>
+    </div>
+    <?php endif; ?>
     <div class="container" id="signIn">
         <h1 class="form-title">SignIn</h1>
         <form method="post" action="Signin.php">
@@ -68,11 +75,11 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
         </form>
         <p class="or">
             ---------------or----------------
-             </p>
-            <div class="links">
-                <p>Don't have a account yet ?</p>
-                <a href="Signup.php" style="color:#0369a1;text-decoration:underline;font-weight:600;">Sign Up</a>
-            </div>
+        </p>
+        <div class="links">
+            <p>Don't have a account yet ?</p>
+            <a href="Signup.php" style="color:#0369a1;text-decoration:underline;font-weight:600;">Sign Up</a>
+        </div>
     </div>
 </body>
 </html>

@@ -118,3 +118,36 @@ body {
 .recover a:hover {
     text-decoration: underline;
 }
+.error-box {
+    background: #fff0f0;
+    border: 1.5px solid #ef4444;
+    color: #b91c1c;
+    border-radius: 10px;
+    padding: 18px 22px 10px 22px;
+    margin-bottom: 22px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.08);
+    position: relative;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    z-index: 2;
+}
+.error-box button {
+    margin-top: 12px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 22px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 1px 4px rgba(239,68,68,0.08);
+    transition: background 0.2s;
+}
+.error-box button:hover {
+    background: #b91c1c;
+}

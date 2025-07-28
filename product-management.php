@@ -466,13 +466,10 @@ try {
                             <label for="edit_category">Category</label>
                             <select id="edit_category" name="category" required>
                                 <option value="">Select Category</option>
-                                <option value="Fruits">Fruits</option>
-                                <option value="Vegetables">Vegetables</option>
-                                <option value="Dairy">Dairy</option>
-                                <option value="Meat">Meat</option>
-                                <option value="Grains">Grains</option>
-                                <option value="Beverages">Beverages</option>
-                                <option value="Snacks">Snacks</option>
+                                <option value="Books">Books</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Home">Home</option>
                                 <option value="Other">Other</option>
                             </select>
                         </div>

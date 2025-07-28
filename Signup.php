@@ -1,5 +1,6 @@
 <?php
 require 'dbconnect.php';
+$errorMsg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $firstName = $_POST['fName'];
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $stmt = $pdo->prepare($checkEmail);
     $stmt->execute([$email]);
     if ($stmt->rowCount() > 0) {
-        echo "Email Address Already Exists !!";
+        $errorMsg = "Email Address Already Exists !!";
     } else {
         $insertQuery = "INSERT INTO users (firstName, lastName, email, phone, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $insertStmt = $pdo->prepare($insertQuery);
@@ -23,11 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $success = $insertStmt->execute([$firstName, $lastName, $email, $phoneNumber, $address, $role, $password]);
         if (!$success) {
             $errorInfo = $insertStmt->errorInfo();
-            echo "Database insert error: " . htmlspecialchars($errorInfo[2]);
+            $errorMsg = "Database insert error: " . htmlspecialchars($errorInfo[2]);
+        } else {
+            header('Location: Signin.php');
             exit();
         }
-        header('Location: Signin.php');
-        exit();
     }
 }
 ?>
@@ -42,7 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <link rel="stylesheet" href="auth-style.css">
 </head>
 <body>
-        <div class="container" id="signup">
+    <?php if (!empty($errorMsg)): ?>
+    <div class="error-box" id="signupErrorBox">
+        <div><?php echo $errorMsg; ?></div>
+        <button onclick="document.getElementById('signupErrorBox').style.display='none'">OK</button>
+    </div>
+    <?php endif; ?>
+    <div class="container" id="signup">
         <h1 class="form-title">Sign Up</h1>
         <form method="post" action="Signup.php">
             <div class="input-group">
