@@ -1,12 +1,27 @@
 <?php
 require 'dbconnect.php';
 
+// Create admin account if it doesn't exist
+try {
+    $checkAdminStmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
+    $checkAdminStmt->execute(['admin123@gmail.com']);
+    $adminCount = $checkAdminStmt->fetchColumn();
+    
+    if ($adminCount == 0) {
+        $adminPassword = md5('Admin123');
+        $adminStmt = $pdo->prepare('INSERT INTO users (firstName, lastName, email, phone, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $adminStmt->execute(['Admin', 'User', 'admin123@gmail.com', '0000000000', '', 'Admin', $adminPassword]);
+    }
+} catch (PDOException $e) {
+    // Silent error handling for admin creation
+}
+
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $firstName = $_POST['fName'];
     $lastName = $_POST['lName'];
     $email = $_POST['email'];
     $phoneNumber = $_POST['phonenumber'];
-    $role = $_POST['role'];
+    $role = 'Employee'; // Automatically set role to Employee
     $password = md5($_POST['password']);
     $id = random_int(0, 999);
 
@@ -16,16 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if ($stmt->rowCount() > 0) {
         echo "Email Address Already Exists !!";
     } else {
-        if (empty($role)) {
-            echo "Role is required!";
-            exit();
-        }
-        if ($role !== 'Employee' && $role !== 'Admin') {
-            echo "Invalid role selected!";
-            exit();
-        }
-       
-
         $insertQuery = "INSERT INTO users (firstName, lastName, email, phone, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $insertStmt = $pdo->prepare($insertQuery);
         $address = ''; // Default empty address since form doesn't collect this
@@ -78,15 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <i class="fas fa-lock"></i>
                 <input type="password" name="password" id="password" placeholder="" required>
                 <label for="password">Password</label>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user-tag"></i>
-                <select name="role" id="role" required>
-                    <option value="">Select Role</option>
-                    <option value="Employee">Employee</option>
-                    <option value="Admin">Admin</option>
-                </select>
-                <label for="role">Role</label>
             </div>
             <input type="submit" class="btn" value="Submit" name="register">
         </form>
