@@ -66,6 +66,48 @@ class ApiHandler {
                 echo json_encode(['success' => true, 'data' => $users]);
                 break;
                 
+            case 'get_supplier':
+                $supplierId = $_GET['id'] ?? 0;
+                try {
+                    $supplier = $this->admin->getSupplierById($supplierId);
+                    if ($supplier) {
+                        echo json_encode(['success' => true, 'supplier' => $supplier]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Supplier not found']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
+            case 'get_employee':
+                $employeeId = $_GET['id'] ?? 0;
+                try {
+                    $employee = $this->admin->getEmployeeById($employeeId);
+                    if ($employee) {
+                        echo json_encode(['success' => true, 'employee' => $employee]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Employee not found']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
+            case 'get_order':
+                $orderId = $_GET['id'] ?? 0;
+                try {
+                    $order = $this->admin->getOrderById($orderId);
+                    if ($order) {
+                        echo json_encode(['success' => true, 'order' => $order]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Order not found']);
+                    }
+                } catch (Exception $e) {
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+                }
+                break;
+                
             default:
                 echo json_encode(['error' => 'Invalid action']);
         }

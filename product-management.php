@@ -92,11 +92,11 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Management - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -272,6 +272,51 @@ try {
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Product Management</h4>
+                <p>Comprehensive product catalog and inventory management system for your business.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="product-management.php">Products</a></li>
+                    <li><a href="supplier-management.php">Suppliers</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Product Actions</h4>
+                <ul>
+                    <li><a href="#add">Add Product</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#inventory">Inventory</a></li>
+                    <li><a href="#bulk">Bulk Import</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <div class="social-links">
+                    <a href="#catalog" aria-label="Catalog"><i class="fas fa-list"></i></a>
+                    <a href="#barcode" aria-label="Barcode"><i class="fas fa-barcode"></i></a>
+                    <a href="#pricing" aria-label="Pricing"><i class="fas fa-tags"></i></a>
+                    <a href="#reports" aria-label="Reports"><i class="fas fa-chart-pie"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Product Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Modal functions

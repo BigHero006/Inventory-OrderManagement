@@ -23,6 +23,16 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
     $messageType = 'success';
 }
 
+if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+    $message = 'Supplier updated successfully!';
+    $messageType = 'success';
+}
+
+if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
+    $message = 'Supplier deleted successfully!';
+    $messageType = 'success';
+}
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
@@ -69,6 +79,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $messageType = 'error';
                 }
                 break;
+                
+            case 'edit_supplier':
+                try {
+                    $success = $admin->updateSupplier(
+                        $_POST['supplier_id'],
+                        $_POST['company_name'],
+                        $_POST['contact_person'],
+                        $_POST['email'],
+                        $_POST['phone'],
+                        $_POST['address']
+                    );
+                    
+                    if ($success) {
+                        // Redirect to prevent resubmission
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?updated=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to update supplier.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error updating supplier: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
+                
+            case 'delete_supplier':
+                try {
+                    $success = $admin->deleteSupplier($_POST['supplier_id']);
+                    
+                    if ($success) {
+                        // Redirect to prevent resubmission
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?deleted=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to delete supplier.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error deleting supplier: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
         }
     }
 }
@@ -88,11 +141,11 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Management - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -127,10 +180,6 @@ try {
                 <a href="financial-reports.php" class="nav-link">
                     <i class="fas fa-credit-card"></i>
                     <span>Financial Reports</span>
-                </a>
-                <a href="system-reports.php" class="nav-link">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>System Reports</span>
                 </a>
                 <a href="logout.php" class="nav-link logout-nav">
                     <i class="fas fa-sign-out-alt"></i>
@@ -220,6 +269,51 @@ try {
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Supplier Management</h4>
+                <p>Efficient supplier relationship management system for streamlined procurement and partnerships.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="supplier-management.php">Suppliers</a></li>
+                    <li><a href="product-management.php">Products</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Supplier Actions</h4>
+                <ul>
+                    <li><a href="#add" onclick="showAddSupplierModal()">Add Supplier</a></li>
+                    <li><a href="#contacts">Contacts</a></li>
+                    <li><a href="#contracts">Contracts</a></li>
+                    <li><a href="#performance">Performance</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <div class="social-links">
+                    <a href="#directory" aria-label="Directory"><i class="fas fa-address-book"></i></a>
+                    <a href="#communication" aria-label="Communication"><i class="fas fa-comments"></i></a>
+                    <a href="#contracts" aria-label="Contracts"><i class="fas fa-file-contract"></i></a>
+                    <a href="#analytics" aria-label="Analytics"><i class="fas fa-analytics"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Supplier Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+            </div>
+        </div>
+    </footer>
+
     <!-- Add Supplier Modal -->
     <div id="addSupplierModal" class="modal">
         <div class="modal-content">
@@ -260,6 +354,50 @@ try {
         </div>
     </div>
 
+    <!-- Edit Supplier Modal -->
+    <div id="editSupplierModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Supplier</h3>
+                <span class="close" onclick="closeModal('editSupplierModal')">&times;</span>
+            </div>
+            <form id="editSupplierForm" method="POST">
+                <input type="hidden" name="action" value="edit_supplier">
+                <input type="hidden" name="supplier_id" id="editSupplierId">
+                
+                <div class="form-group">
+                    <label for="editCompanyName"><i class="fas fa-building"></i> Company Name</label>
+                    <input type="text" id="editCompanyName" name="company_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editContactPerson"><i class="fas fa-user"></i> Contact Person</label>
+                    <input type="text" id="editContactPerson" name="contact_person">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="editEmail" name="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPhone"><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" id="editPhone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <textarea id="editAddress" name="address" rows="3"></textarea>
+                </div>
+            </form>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('editSupplierModal')">Cancel</button>
+                <button type="submit" form="editSupplierForm" class="btn-primary">Update Supplier</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Modal functions
         function showAddSupplierModal() {
@@ -276,12 +414,53 @@ try {
         }
 
         function editSupplier(supplierId) {
-            alert(`Edit supplier with ID: ${supplierId}`);
+            // Fetch supplier data via AJAX
+            fetch(`api/admin_api.php?action=get_supplier&id=${supplierId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the edit form
+                        document.getElementById('editSupplierId').value = data.supplier.supplier_id;
+                        document.getElementById('editCompanyName').value = data.supplier.company_name || '';
+                        document.getElementById('editContactPerson').value = data.supplier.contact_person || '';
+                        document.getElementById('editEmail').value = data.supplier.email || '';
+                        document.getElementById('editPhone').value = data.supplier.phone || '';
+                        document.getElementById('editAddress').value = data.supplier.address || '';
+                        
+                        // Show the modal
+                        document.getElementById('editSupplierModal').style.display = 'flex';
+                    } else {
+                        alert('Error fetching supplier data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error fetching supplier data. Please try again.');
+                });
         }
 
         function deleteSupplier(supplierId) {
-            if (confirm('Are you sure you want to delete this supplier?')) {
-                alert(`Delete supplier with ID: ${supplierId}`);
+            if (confirm('Are you sure you want to delete this supplier? This action cannot be undone.')) {
+                // Create a form to submit the delete request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.style.display = 'none';
+                
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete_supplier';
+                
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'supplier_id';
+                idInput.value = supplierId;
+                
+                form.appendChild(actionInput);
+                form.appendChild(idInput);
+                document.body.appendChild(form);
+                
+                form.submit();
             }
         }
 

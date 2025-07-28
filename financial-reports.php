@@ -26,11 +26,11 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Reports - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -232,6 +232,51 @@ try {
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Financial Reports</h4>
+                <p>Comprehensive financial analytics and reporting system for business insights.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Reports</h4>
+                <ul>
+                    <li><a href="financial-reports.php">Financial</a></li>
+                    <li><a href="system-reports.php">System</a></li>
+                    <li><a href="export-reports.php">Export</a></li>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Financial Tools</h4>
+                <ul>
+                    <li><a href="#revenue">Revenue Analysis</a></li>
+                    <li><a href="#expenses">Expense Tracking</a></li>
+                    <li><a href="#profit">Profit Margins</a></li>
+                    <li><a href="#forecasts">Forecasts</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Export Options</h4>
+                <div class="social-links">
+                    <a href="#pdf" aria-label="PDF Export"><i class="fas fa-file-pdf"></i></a>
+                    <a href="#excel" aria-label="Excel Export"><i class="fas fa-file-excel"></i></a>
+                    <a href="#csv" aria-label="CSV Export"><i class="fas fa-file-csv"></i></a>
+                    <a href="#print" aria-label="Print"><i class="fas fa-print"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Financial Reports. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#audit">Audit Trail</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function exportFinancialReport() {

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Test - Admin vs Employee</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="employee-dashboard.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+        .test-section {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-admin .dashboard-footer {
+            /* Use admin styles */
+        }
+        .test-employee .dashboard-footer {
+            /* Use employee styles - they should be identical now */
+        }
+    </style>
+</head>
+<body>
+    <div class="test-section">
+        <h2>Footer Styling Test - Admin vs Employee Comparison</h2>
+        <p style="text-align: center; color: #666;">Both footers should look identical now</p>
+    </div>
+
+    <div class="test-section test-admin">
+        <h2>Admin Dashboard Footer (from admin-dashboard.css)</h2>
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <p>Leading inventory management solutions for modern businesses. Streamline your operations with our powerful tools.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Orders</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Products</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> System Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@company.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Business St, City</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Inventory Management System. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="test-section test-employee">
+        <h2>Employee Dashboard Footer (from employee-dashboard.css)</h2>
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <p>Leading inventory management solutions for modern businesses. Streamline your operations with our powerful tools.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Orders</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Products</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-arrow-right"></i> System Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@company.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Business St, City</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Inventory Management System. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Support</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

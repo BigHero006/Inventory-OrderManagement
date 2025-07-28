@@ -14,11 +14,11 @@ $lastName = SessionManager::get('lastName');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Reports - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -167,6 +167,51 @@ $lastName = SessionManager::get('lastName');
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>System Reports</h4>
+                <p>Advanced system monitoring and analytics for optimal performance management.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Reports</h4>
+                <ul>
+                    <li><a href="system-reports.php">System</a></li>
+                    <li><a href="financial-reports.php">Financial</a></li>
+                    <li><a href="export-reports.php">Export</a></li>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>System Tools</h4>
+                <ul>
+                    <li><a href="#performance">Performance</a></li>
+                    <li><a href="#logs">System Logs</a></li>
+                    <li><a href="#alerts">Alerts</a></li>
+                    <li><a href="#monitoring">Monitoring</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Analytics</h4>
+                <div class="social-links">
+                    <a href="#metrics" aria-label="Metrics"><i class="fas fa-tachometer-alt"></i></a>
+                    <a href="#trends" aria-label="Trends"><i class="fas fa-trending-up"></i></a>
+                    <a href="#alerts" aria-label="Alerts"><i class="fas fa-exclamation-triangle"></i></a>
+                    <a href="#health" aria-label="Health"><i class="fas fa-heartbeat"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu System Reports. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#monitoring">System Monitoring</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         let charts = {};

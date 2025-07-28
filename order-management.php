@@ -8,6 +8,63 @@ $firstName = SessionManager::get('firstName');
 $lastName = SessionManager::get('lastName');
 
 $admin = new Admin();
+$message = '';
+$messageType = '';
+
+// Handle success messages from redirects
+if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+    $message = 'Order status updated successfully!';
+    $messageType = 'success';
+}
+
+if (isset($_GET['cancelled']) && $_GET['cancelled'] == '1') {
+    $message = 'Order cancelled successfully!';
+    $messageType = 'success';
+}
+
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        switch ($_POST['action']) {
+            case 'update_order_status':
+                try {
+                    $success = $admin->updateOrderStatus(
+                        $_POST['order_id'],
+                        $_POST['status']
+                    );
+                    
+                    if ($success) {
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?updated=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to update order status.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error updating order: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
+                
+            case 'cancel_order':
+                try {
+                    $success = $admin->cancelOrder($_POST['order_id']);
+                    
+                    if ($success) {
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?cancelled=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to cancel order.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error cancelling order: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
+        }
+    }
+}
 
 // Fetch orders from database
 try {
@@ -24,11 +81,11 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Management - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -64,10 +121,6 @@ try {
                     <i class="fas fa-credit-card"></i>
                     <span>Financial Reports</span>
                 </a>
-                <a href="system-reports.php" class="nav-link">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>System Reports</span>
-                </a>
                 <a href="logout.php" class="nav-link logout-nav">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
@@ -89,6 +142,14 @@ try {
                     </button>
                 </div>
             </div>
+
+            <!-- Message Display -->
+            <?php if (!empty($message)): ?>
+            <div class="alert alert-<?php echo $messageType; ?>">
+                <i class="fas fa-<?php echo $messageType === 'success' ? 'check-circle' : 'exclamation-triangle'; ?>"></i>
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+            <?php endif; ?>
 
             <!-- Orders Table -->
             <div class="content-card">
@@ -137,7 +198,7 @@ try {
                                         <button class="btn-edit" onclick="editOrder(<?php echo $order['order_id']; ?>)" title="Edit Order">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button class="btn-delete" onclick="deleteOrder(<?php echo $order['order_id']; ?>)" title="Cancel Order">
+                                        <button class="btn-cancel" onclick="cancelOrder(<?php echo $order['order_id']; ?>)" title="Cancel Order">
                                             <i class="fas fa-ban"></i>
                                         </button>
                                     </div>
@@ -147,6 +208,86 @@ try {
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Order Management</h4>
+                <p>Complete order processing and tracking system for efficient business operations.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                    <li><a href="product-management.php">Products</a></li>
+                    <li><a href="user-management.php">Users</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Order Actions</h4>
+                <ul>
+                    <li><a href="#create">Create Order</a></li>
+                    <li><a href="#process">Process Orders</a></li>
+                    <li><a href="#track">Track Shipments</a></li>
+                    <li><a href="#reports">Order Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <div class="social-links">
+                    <a href="#analytics" aria-label="Analytics"><i class="fas fa-chart-bar"></i></a>
+                    <a href="#export" aria-label="Export"><i class="fas fa-download"></i></a>
+                    <a href="#print" aria-label="Print"><i class="fas fa-print"></i></a>
+                    <a href="#filter" aria-label="Filter"><i class="fas fa-filter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Order Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Order Status Modal -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Update Order Status</h3>
+                <span class="close" onclick="closeModal('editOrderModal')">&times;</span>
+            </div>
+            <form id="editOrderForm" method="POST">
+                <input type="hidden" name="action" value="update_order_status">
+                <input type="hidden" name="order_id" id="editOrderId">
+                
+                <div class="form-group">
+                    <label for="orderDetails"><i class="fas fa-info-circle"></i> Order Details</label>
+                    <div id="orderDetails" class="order-details-display"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editOrderStatus"><i class="fas fa-tasks"></i> Order Status</label>
+                    <select id="editOrderStatus" name="status" required>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </form>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('editOrderModal')">Cancel</button>
+                <button type="submit" form="editOrderForm" class="btn-primary">Update Status</button>
             </div>
         </div>
     </div>
@@ -162,8 +303,78 @@ try {
         }
 
         function editOrder(orderId) {
-            alert(`Edit order #${orderId}`);
+            // Fetch order data via AJAX
+            fetch(`api/admin_api.php?action=get_order&id=${orderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the edit form
+                        document.getElementById('editOrderId').value = data.order.order_id;
+                        document.getElementById('editOrderStatus').value = data.order.status;
+                        
+                        // Display order details
+                        const orderDetails = document.getElementById('orderDetails');
+                        orderDetails.innerHTML = `
+                            <div class="order-info">
+                                <p><strong>Order ID:</strong> #${data.order.order_id}</p>
+                                <p><strong>Customer:</strong> ${data.order.customer_name || 'N/A'}</p>
+                                <p><strong>Date:</strong> ${new Date(data.order.order_date).toLocaleDateString()}</p>
+                                <p><strong>Amount:</strong> $${parseFloat(data.order.total_amount || 0).toFixed(2)}</p>
+                                <p><strong>Current Status:</strong> <span class="status-badge status-${data.order.status.toLowerCase()}">${data.order.status}</span></p>
+                            </div>
+                        `;
+                        
+                        // Show the modal
+                        document.getElementById('editOrderModal').style.display = 'flex';
+                    } else {
+                        alert('Error fetching order data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error fetching order data. Please try again.');
+                });
         }
+
+        function cancelOrder(orderId) {
+            if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+                // Create a form to submit the cancel request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.style.display = 'none';
+                
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'cancel_order';
+                
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'order_id';
+                idInput.value = orderId;
+                
+                form.appendChild(actionInput);
+                form.appendChild(idInput);
+                document.body.appendChild(form);
+                
+                form.submit();
+            }
+        }
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
 
         // Search and filter functionality
         document.getElementById('orderSearch').addEventListener('input', function() {
@@ -256,11 +467,58 @@ try {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            margin: 0 2px;
         }
 
         .btn-view:hover {
             transform: scale(1.1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .btn-edit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .btn-cancel:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 149, 0, 0.4);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
         }
     </style>
 </body>

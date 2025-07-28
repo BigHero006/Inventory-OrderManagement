@@ -25,6 +25,8 @@ $deliveredOrders = $employee->getAllOrders('delivered');
     <title>Shipment Management - Employee Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="employee-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .shipment-management {
             padding: 20px;
@@ -225,7 +227,60 @@ $deliveredOrders = $employee->getAllOrders('delivered');
         }
     </style>
 </head>
-<body class="shipment-management">
+<body class="employee-dashboard">
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <span>Employee Panel</span>
+            </div>
+            <nav>
+                <a href="employeedashboard.php">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="employee-orders.php">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Manage Orders</span>
+                </a>
+                <a href="employee-products.php">
+                    <i class="fas fa-box"></i>
+                    <span>Manage Products</span>
+                </a>
+                <a href="employee-shipments.php" class="active">
+                    <i class="fas fa-truck"></i>
+                    <span>Shipments</span>
+                </a>
+                <a href="employee-create-order.php">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Order</span>
+                </a>
+                <a href="logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header glass-card">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search shipments...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
+                    <div class="year">Employee</div>
+                </div>
+            </div>
+
+            <!-- Existing Shipments Content -->
     <div class="content-card">
         <div class="page-header">
             <div class="page-title">
@@ -393,6 +448,53 @@ $deliveredOrders = $employee->getAllOrders('delivered');
             <?php endif; ?>
         </div>
     </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Wastu Inventory</h4>
+                <p>Efficient order and inventory management system designed for modern businesses.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="employeedashboard.php">Dashboard</a></li>
+                    <li><a href="employee-orders.php">Orders</a></li>
+                    <li><a href="employee-products.php">Products</a></li>
+                    <li><a href="employee-shipments.php">Shipments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Shipment Tracking</h4>
+                <ul>
+                    <li><a href="#process">Process Shipments</a></li>
+                    <li><a href="#track">Track Packages</a></li>
+                    <li><a href="#delivered">Delivered Orders</a></li>
+                    <li><a href="#reports">Shipping Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Inventory Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#cookies">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Tab functionality
@@ -491,6 +593,93 @@ $deliveredOrders = $employee->getAllOrders('delivered');
                 alertDiv.remove();
             }, 5000);
         }
+        
+        // Enhanced search functionality for the header search box
+        let searchTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    performGlobalSearch(query);
+                }, 300);
+            });
+        }
+
+        function performGlobalSearch(query) {
+            // Search in shipment orders
+            const orderRows = document.querySelectorAll('tr');
+            let found = false;
+            let matchingOrders = [];
+            
+            orderRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(query.toLowerCase()) && row.cells.length > 1) {
+                    const orderId = row.cells[0]?.textContent || '';
+                    const customer = row.cells[1]?.textContent || '';
+                    if (orderId && customer) {
+                        matchingOrders.push({
+                            id: orderId,
+                            customer: customer
+                        });
+                        found = true;
+                    }
+                }
+            });
+            
+            let html = '';
+            if (found && matchingOrders.length > 0) {
+                html += '<div class="search-category"><h4>Shipments</h4>';
+                matchingOrders.slice(0, 5).forEach(order => {
+                    html += `
+                        <div class="search-item" onclick="highlightShipment('${order.id}')">
+                            <div class="search-title">${order.id} - ${order.customer}</div>
+                            <div class="search-meta">Shipment Order</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html = '<div class="search-empty">No shipments found</div>';
+            }
+            
+            searchResults.innerHTML = html;
+            searchResults.style.display = 'block';
+        }
+
+        function highlightShipment(orderId) {
+            const rows = document.querySelectorAll('tr');
+            rows.forEach(row => {
+                if (row.cells[0] && row.cells[0].textContent === orderId) {
+                    row.style.backgroundColor = '#fff3cd';
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    setTimeout(() => {
+                        row.style.backgroundColor = '';
+                    }, 3000);
+                }
+            });
+            searchResults.style.display = 'none';
+        }
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(event) {
+            if (searchInput && searchResults && 
+                !searchInput.contains(event.target) && 
+                !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>

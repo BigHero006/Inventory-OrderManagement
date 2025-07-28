@@ -54,6 +54,8 @@ $suppliers = $employee->getSuppliers();
     <title>Product Management - Employee Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="employee-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .product-management {
             padding: 20px;
@@ -329,7 +331,60 @@ $suppliers = $employee->getSuppliers();
         }
     </style>
 </head>
-<body class="product-management">
+<body class="employee-dashboard">
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <span>Employee Panel</span>
+            </div>
+            <nav>
+                <a href="employeedashboard.php">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="employee-orders.php">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Manage Orders</span>
+                </a>
+                <a href="employee-products.php" class="active">
+                    <i class="fas fa-box"></i>
+                    <span>Manage Products</span>
+                </a>
+                <a href="employee-shipments.php">
+                    <i class="fas fa-truck"></i>
+                    <span>Shipments</span>
+                </a>
+                <a href="employee-create-order.php">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Order</span>
+                </a>
+                <a href="logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header glass-card">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search products...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
+                    <div class="year">Employee</div>
+                </div>
+            </div>
+
+            <!-- Existing Products Content -->
     <div class="content-card">
         <div class="page-header">
             <div class="page-title">
@@ -384,6 +439,53 @@ $suppliers = $employee->getSuppliers();
             <?php endforeach; ?>
         </div>
     </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Wastu Inventory</h4>
+                <p>Efficient order and inventory management system designed for modern businesses.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="employeedashboard.php">Dashboard</a></li>
+                    <li><a href="employee-orders.php">Orders</a></li>
+                    <li><a href="employee-products.php">Products</a></li>
+                    <li><a href="employee-shipments.php">Shipments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Product Management</h4>
+                <ul>
+                    <li><a href="#add" onclick="showAddProductModal()">Add Product</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#inventory">Inventory</a></li>
+                    <li><a href="#reports">Product Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Inventory Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#cookies">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- Add Product Modal -->
     <div id="addProductModal" class="modal">
@@ -544,6 +646,91 @@ $suppliers = $employee->getSuppliers();
                 alertDiv.remove();
             }, 5000);
         }
-    </script>
+        
+        // Enhanced search functionality for the header search box
+        let searchTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    performGlobalSearch(query);
+                }, 300);
+            });
+        }
+
+        function performGlobalSearch(query) {
+            // Search in current products
+            const productCards = document.querySelectorAll('.product-card');
+            let found = false;
+            let matchingProducts = [];
+            
+            productCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query.toLowerCase())) {
+                    const productName = card.querySelector('h4').textContent;
+                    const productPrice = card.querySelector('.product-price').textContent;
+                    matchingProducts.push({
+                        name: productName,
+                        price: productPrice
+                    });
+                    found = true;
+                }
+            });
+            
+            let html = '';
+            if (found && matchingProducts.length > 0) {
+                html += '<div class="search-category"><h4>Products</h4>';
+                matchingProducts.slice(0, 5).forEach(product => {
+                    html += `
+                        <div class="search-item" onclick="highlightProduct('${product.name}')">
+                            <div class="search-title">${product.name}</div>
+                            <div class="search-meta">${product.price}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html = '<div class="search-empty">No products found</div>';
+            }
+            
+            searchResults.innerHTML = html;
+            searchResults.style.display = 'block';
+        }
+
+        function highlightProduct(productName) {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                if (card.querySelector('h4').textContent === productName) {
+                    card.style.backgroundColor = '#fff3cd';
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    setTimeout(() => {
+                        card.style.backgroundColor = '';
+                    }, 3000);
+                }
+            });
+            searchResults.style.display = 'none';
+        }
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(event) {
+            if (searchInput && searchResults && 
+                !searchInput.contains(event.target) && 
+                !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>    
 </body>
 </html>

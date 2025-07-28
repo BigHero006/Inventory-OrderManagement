@@ -8,10 +8,71 @@ $firstName = SessionManager::get('firstName');
 $lastName = SessionManager::get('lastName');
 
 $admin = new Admin();
+$message = '';
+$messageType = '';
+
+// Handle success messages from redirects
+if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+    $message = 'Employee updated successfully!';
+    $messageType = 'success';
+}
+
+if (isset($_GET['deleted']) && $_GET['deleted'] == '1') {
+    $message = 'Employee removed successfully!';
+    $messageType = 'success';
+}
+
+// Handle form submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        switch ($_POST['action']) {
+            case 'edit_employee':
+                try {
+                    $success = $admin->updateEmployee(
+                        $_POST['employee_id'],
+                        $_POST['firstName'],
+                        $_POST['lastName'],
+                        $_POST['email'],
+                        $_POST['phone'],
+                        $_POST['address']
+                    );
+                    
+                    if ($success) {
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?updated=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to update employee.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error updating employee: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
+                
+            case 'delete_employee':
+                try {
+                    $success = $admin->deleteEmployee($_POST['employee_id']);
+                    
+                    if ($success) {
+                        header('Location: ' . $_SERVER['PHP_SELF'] . '?deleted=1');
+                        exit();
+                    } else {
+                        $message = 'Failed to remove employee.';
+                        $messageType = 'error';
+                    }
+                } catch (Exception $e) {
+                    $message = 'Error removing employee: ' . $e->getMessage();
+                    $messageType = 'error';
+                }
+                break;
+        }
+    }
+}
 
 // Fetch employees from database
 try {
-    $employees = $admin->getEmployees(); // We'll add this method
+    $employees = $admin->getEmployees();
 } catch (Exception $e) {
     $employees = [];
 }
@@ -24,11 +85,11 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -80,6 +141,14 @@ try {
                     <p>Monitor and manage employee activities and performance</p>
                 </div>
             </div>
+
+            <!-- Message Display -->
+            <?php if (!empty($message)): ?>
+            <div class="alert alert-<?php echo $messageType; ?>">
+                <i class="fas fa-<?php echo $messageType === 'success' ? 'check-circle' : 'exclamation-triangle'; ?>"></i>
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+            <?php endif; ?>
 
             <!-- Employees Table -->
             <div class="content-card">
@@ -147,6 +216,95 @@ try {
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Employee Management</h4>
+                <p>Comprehensive employee administration and workforce management system.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="employee-management.php">Employees</a></li>
+                    <li><a href="user-management.php">Users</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Employee Actions</h4>
+                <ul>
+                    <li><a href="#add">Add Employee</a></li>
+                    <li><a href="#permissions">Permissions</a></li>
+                    <li><a href="#schedule">Schedules</a></li>
+                    <li><a href="#performance">Performance</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>HR Tools</h4>
+                <div class="social-links">
+                    <a href="#profiles" aria-label="Profiles"><i class="fas fa-user-circle"></i></a>
+                    <a href="#payroll" aria-label="Payroll"><i class="fas fa-money-check"></i></a>
+                    <a href="#attendance" aria-label="Attendance"><i class="fas fa-clock"></i></a>
+                    <a href="#reports" aria-label="Reports"><i class="fas fa-chart-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Employee Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#hr-policy">HR Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Employee Modal -->
+    <div id="editEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Edit Employee</h3>
+                <span class="close" onclick="closeModal('editEmployeeModal')">&times;</span>
+            </div>
+            <form id="editEmployeeForm" method="POST">
+                <input type="hidden" name="action" value="edit_employee">
+                <input type="hidden" name="employee_id" id="editEmployeeId">
+                
+                <div class="form-group">
+                    <label for="editFirstName"><i class="fas fa-user"></i> First Name</label>
+                    <input type="text" id="editFirstName" name="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editLastName"><i class="fas fa-user"></i> Last Name</label>
+                    <input type="text" id="editLastName" name="lastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="editEmail" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPhone"><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" id="editPhone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editAddress"><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <textarea id="editAddress" name="address" rows="3"></textarea>
+                </div>
+            </form>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('editEmployeeModal')">Cancel</button>
+                <button type="submit" form="editEmployeeForm" class="btn-primary">Update Employee</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Employee management functions
         function viewEmployee(employeeId) {
@@ -154,14 +312,70 @@ try {
         }
 
         function editEmployee(employeeId) {
-            alert(`Edit employee #${employeeId}`);
+            // Fetch employee data via AJAX
+            fetch(`api/admin_api.php?action=get_employee&id=${employeeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Populate the edit form
+                        document.getElementById('editEmployeeId').value = data.employee.id;
+                        document.getElementById('editFirstName').value = data.employee.firstName || '';
+                        document.getElementById('editLastName').value = data.employee.lastName || '';
+                        document.getElementById('editEmail').value = data.employee.email || '';
+                        document.getElementById('editPhone').value = data.employee.phone || '';
+                        document.getElementById('editAddress').value = data.employee.address || '';
+                        
+                        // Show the modal
+                        document.getElementById('editEmployeeModal').style.display = 'flex';
+                    } else {
+                        alert('Error fetching employee data: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error fetching employee data. Please try again.');
+                });
         }
 
         function deleteEmployee(employeeId) {
-            if (confirm(`Are you sure you want to delete employee #${employeeId}?`)) {
-                alert(`Delete employee #${employeeId} - This functionality would be implemented with AJAX`);
+            if (confirm('Are you sure you want to remove this employee? This action will mark them as inactive.')) {
+                // Create a form to submit the delete request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.style.display = 'none';
+                
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete_employee';
+                
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'employee_id';
+                idInput.value = employeeId;
+                
+                form.appendChild(actionInput);
+                form.appendChild(idInput);
+                document.body.appendChild(form);
+                
+                form.submit();
             }
         }
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
 
         // Search functionality
         document.getElementById('employeeSearch').addEventListener('input', function() {
@@ -219,11 +433,58 @@ try {
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            margin: 0 2px;
         }
 
         .btn-view:hover {
             transform: scale(1.1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .btn-edit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(103, 126, 234, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4757 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
         }
     </style>
 </body>

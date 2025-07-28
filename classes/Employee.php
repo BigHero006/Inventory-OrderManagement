@@ -220,13 +220,13 @@ class Employee {
             // Insert order items
             foreach ($items as $item) {
                 $stmt = $this->conn->prepare("
-                    INSERT INTO order_items (order_id, product_id, quantity, unit_price) 
-                    VALUES (:order_id, :product_id, :quantity, :unit_price)
+                    INSERT INTO order_items (order_id, product_id, quantity, price) 
+                    VALUES (:order_id, :product_id, :quantity, :price)
                 ");
                 $stmt->bindParam(':order_id', $orderId);
                 $stmt->bindParam(':product_id', $item['product_id']);
                 $stmt->bindParam(':quantity', $item['quantity']);
-                $stmt->bindParam(':unit_price', $item['unit_price']);
+                $stmt->bindParam(':price', $item['unit_price']);
                 $stmt->execute();
             }
             

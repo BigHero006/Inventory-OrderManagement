@@ -34,7 +34,60 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - System Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>"
+        .footer-content {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+            gap: 60px !important;
+            padding: 80px 50px !important;
+            max-width: 1500px !important;
+            margin: 0 auto !important;
+        }
+        .footer-section {
+            background: rgba(255, 255, 255, 0.05) !important;
+            padding: 30px !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        .footer-section h4 {
+            color: white !important;
+            font-size: 22px !important;
+            margin-bottom: 30px !important;
+        }
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none !important;
+        }
+        .footer-section ul li a:hover {
+            color: white !important;
+        }
+        .footer-bottom {
+            background: rgba(30, 27, 75, 0.8) !important;
+            padding: 40px 50px !important;
+            border-top: 2px solid rgba(59, 130, 246, 0.3) !important;
+        }
+        .footer-bottom p {
+            color: white !important;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none !important;
+        }
+        .social-links a {
+            background: rgba(59, 130, 246, 0.1) !important;
+            color: white !important;
+            width: 55px !important;
+            height: 55px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 18px !important;
+            margin-right: 15px !important;
+        }
+    </style>
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
@@ -268,6 +321,51 @@ try {
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Wastu Admin</h4>
+                <p>Comprehensive system administration and management platform for complete business oversight.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="user-management.php">Users</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                    <li><a href="product-management.php">Products</a></li>
+                    <li><a href="supplier-management.php">Suppliers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Reports</h4>
+                <ul>
+                    <li><a href="financial-reports.php">Financial Reports</a></li>
+                    <li><a href="system-reports.php">System Reports</a></li>
+                    <li><a href="export-reports.php">Export Data</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>System</h4>
+                <div class="social-links">
+                    <a href="#settings" aria-label="Settings"><i class="fas fa-cog"></i></a>
+                    <a href="#backup" aria-label="Backup"><i class="fas fa-download"></i></a>
+                    <a href="#security" aria-label="Security"><i class="fas fa-shield-alt"></i></a>
+                    <a href="#logs" aria-label="Logs"><i class="fas fa-file-alt"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Admin Panel. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#security">Security Guidelines</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Global variables

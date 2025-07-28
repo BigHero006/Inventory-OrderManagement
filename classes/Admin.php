@@ -58,6 +58,47 @@ class Admin {
         return $stmt->execute([$company_name, $contact_person, $email, $phone, $address]);
     }
     
+    public function getSupplierById($supplier_id) {
+        $stmt = $this->db->getConnection()->prepare("SELECT * FROM suppliers WHERE supplier_id = ?");
+        $stmt->execute([$supplier_id]);
+        return $stmt->fetch();
+    }
+    
+    public function updateSupplier($supplier_id, $company_name, $contact_person, $email, $phone, $address) {
+        $stmt = $this->db->getConnection()->prepare("UPDATE suppliers SET company_name = ?, contact_person = ?, email = ?, phone = ?, address = ? WHERE supplier_id = ?");
+        return $stmt->execute([$company_name, $contact_person, $email, $phone, $address, $supplier_id]);
+    }
+    
+    public function deleteSupplier($supplier_id) {
+        $conn = $this->db->getConnection();
+        
+        try {
+            $conn->beginTransaction();
+            
+            // Check if supplier has associated products
+            $stmt = $conn->prepare("SELECT COUNT(*) as product_count FROM products WHERE supplier_id = ?");
+            $stmt->execute([$supplier_id]);
+            $result = $stmt->fetch();
+            
+            if ($result['product_count'] > 0) {
+                // Update products to remove supplier reference
+                $stmt = $conn->prepare("UPDATE products SET supplier_id = NULL WHERE supplier_id = ?");
+                $stmt->execute([$supplier_id]);
+            }
+            
+            // Delete the supplier
+            $stmt = $conn->prepare("DELETE FROM suppliers WHERE supplier_id = ?");
+            $stmt->execute([$supplier_id]);
+            
+            $conn->commit();
+            return true;
+            
+        } catch (Exception $e) {
+            $conn->rollback();
+            throw $e;
+        }
+    }
+    
     // Order management methods
     public function getAllOrders() {
         $query = "SELECT o.*, 
@@ -80,6 +121,66 @@ class Admin {
                   
         $stmt = $this->db->getConnection()->query($query);
         return $stmt->fetchAll();
+    }
+    
+    public function getEmployeeById($employee_id) {
+        $stmt = $this->db->getConnection()->prepare("SELECT id, firstName, lastName, email, phone, address, role, created_at FROM users WHERE id = ? AND role = 'Employee'");
+        $stmt->execute([$employee_id]);
+        return $stmt->fetch();
+    }
+    
+    public function updateEmployee($employee_id, $firstName, $lastName, $email, $phone, $address) {
+        $stmt = $this->db->getConnection()->prepare("UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ?, address = ? WHERE id = ? AND role = 'Employee'");
+        return $stmt->execute([$firstName, $lastName, $email, $phone, $address, $employee_id]);
+    }
+    
+    public function deleteEmployee($employee_id) {
+        $conn = $this->db->getConnection();
+        
+        try {
+            $conn->beginTransaction();
+            
+            // Check if employee has any associated orders or activities
+            // For safety, we'll just mark them as inactive rather than deleting
+            $stmt = $conn->prepare("UPDATE users SET role = 'Former Employee' WHERE id = ? AND role = 'Employee'");
+            $stmt->execute([$employee_id]);
+            
+            $conn->commit();
+            return true;
+            
+        } catch (Exception $e) {
+            $conn->rollback();
+            throw $e;
+        }
+    }
+    
+    // Enhanced Order management methods
+    public function getOrderById($order_id) {
+        $query = "SELECT o.*, 
+                         CONCAT(u.firstName, ' ', u.lastName) as customer_name,
+                         u.email as customer_email
+                  FROM orders o
+                  LEFT JOIN users u ON o.user_id = u.id
+                  WHERE o.order_id = ?";
+                  
+        $stmt = $this->db->getConnection()->prepare($query);
+        $stmt->execute([$order_id]);
+        return $stmt->fetch();
+    }
+    
+    public function updateOrderStatus($order_id, $status) {
+        $valid_statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+        
+        if (!in_array($status, $valid_statuses)) {
+            throw new Exception('Invalid order status');
+        }
+        
+        $stmt = $this->db->getConnection()->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
+        return $stmt->execute([$status, $order_id]);
+    }
+    
+    public function cancelOrder($order_id) {
+        return $this->updateOrderStatus($order_id, 'cancelled');
     }
     
     // User management methods

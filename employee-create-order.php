@@ -22,18 +22,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $items = json_decode($_POST['items'], true);
             $totalAmount = filter_input(INPUT_POST, 'total_amount', FILTER_VALIDATE_FLOAT);
             
+            // Debug logging
+            error_log("Order creation attempt - User ID: $userId, Items: " . print_r($items, true) . ", Total: $totalAmount");
+            
             if ($userId && !empty($items) && $totalAmount > 0) {
                 $orderId = $employee->createOrder($userId, $items, $totalAmount);
                 if ($orderId) {
                     $message = "Order created successfully! Order ID: #$orderId";
                     $messageType = "success";
+                    error_log("Order created successfully with ID: $orderId");
                 } else {
                     $message = "Failed to create order.";
                     $messageType = "error";
+                    error_log("Order creation failed");
                 }
             } else {
                 $message = "Please provide valid order information.";
                 $messageType = "error";
+                error_log("Invalid order data - User ID: $userId, Items count: " . count($items ?: []) . ", Total: $totalAmount");
             }
             break;
     }
@@ -57,6 +63,8 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Create New Order - Employee Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="employee-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .order-creation {
             padding: 20px;
@@ -267,7 +275,60 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
-<body class="order-creation">
+<body class="employee-dashboard">
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <span>Employee Panel</span>
+            </div>
+            <nav>
+                <a href="employeedashboard.php">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="employee-orders.php">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Manage Orders</span>
+                </a>
+                <a href="employee-products.php">
+                    <i class="fas fa-box"></i>
+                    <span>Manage Products</span>
+                </a>
+                <a href="employee-shipments.php">
+                    <i class="fas fa-truck"></i>
+                    <span>Shipments</span>
+                </a>
+                <a href="employee-create-order.php" class="active">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Order</span>
+                </a>
+                <a href="logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header glass-card">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search products to add...">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
+                    <div class="year">Employee</div>
+                </div>
+            </div>
+
+            <!-- Existing Create Order Content -->
     <div class="content-card">
         <div class="page-header">
             <div class="page-title">
@@ -355,6 +416,53 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
             </button>
         </form>
     </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Wastu Inventory</h4>
+                <p>Efficient order and inventory management system designed for modern businesses.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="employeedashboard.php">Dashboard</a></li>
+                    <li><a href="employee-orders.php">Orders</a></li>
+                    <li><a href="employee-products.php">Products</a></li>
+                    <li><a href="employee-shipments.php">Shipments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Order Creation</h4>
+                <ul>
+                    <li><a href="employee-create-order.php">Create Order</a></li>
+                    <li><a href="#customers">Manage Customers</a></li>
+                    <li><a href="#products">Browse Products</a></li>
+                    <li><a href="#templates">Order Templates</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu Inventory Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#cookies">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         let itemCount = 1;
@@ -459,17 +567,24 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
             e.preventDefault();
             
             const items = [];
+            let totalAmount = 0;
+            
             document.querySelectorAll('.item-row').forEach(row => {
                 const productId = row.querySelector('.product-select').value;
                 const quantity = row.querySelector('.quantity-input').value;
                 const unitPrice = row.querySelector('.price-input').value;
                 
                 if (productId && quantity && unitPrice) {
+                    const qty = parseInt(quantity);
+                    const price = parseFloat(unitPrice);
+                    
                     items.push({
                         product_id: parseInt(productId),
-                        quantity: parseInt(quantity),
-                        unit_price: parseFloat(unitPrice)
+                        quantity: qty,
+                        unit_price: price
                     });
+                    
+                    totalAmount += qty * price;
                 }
             });
             
@@ -478,10 +593,100 @@ $users = $usersStmt->fetchAll(PDO::FETCH_ASSOC);
                 return;
             }
             
+            // Check if customer is selected
+            const customerId = document.getElementById('user_id').value;
+            if (!customerId) {
+                alert('Please select a customer.');
+                return;
+            }
+            
+            // Set the hidden fields
             document.getElementById('orderItems').value = JSON.stringify(items);
+            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
             
             // Submit the form
             this.submit();
+        });
+
+        // Enhanced search functionality for the header search box
+        let searchTimeout;
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    performGlobalSearch(query);
+                }, 300);
+            });
+        }
+
+        function performGlobalSearch(query) {
+            // Search in available products
+            const productOptions = document.querySelectorAll('.product-select option');
+            let found = false;
+            let matchingProducts = [];
+            
+            productOptions.forEach(option => {
+                if (option.value && option.textContent.toLowerCase().includes(query.toLowerCase())) {
+                    matchingProducts.push({
+                        name: option.textContent,
+                        value: option.value,
+                        price: option.dataset.price || 'N/A'
+                    });
+                    found = true;
+                }
+            });
+            
+            let html = '';
+            if (found && matchingProducts.length > 0) {
+                html += '<div class="search-category"><h4>Products</h4>';
+                matchingProducts.slice(0, 5).forEach(product => {
+                    html += `
+                        <div class="search-item" onclick="selectProduct('${product.value}', '${product.name}')">
+                            <div class="search-title">${product.name}</div>
+                            <div class="search-meta">Price: ${product.price}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html = '<div class="search-empty">No products found</div>';
+            }
+            
+            searchResults.innerHTML = html;
+            searchResults.style.display = 'block';
+        }
+
+        function selectProduct(productValue, productName) {
+            // Find first empty product select and populate it
+            const productSelects = document.querySelectorAll('.product-select');
+            for (let select of productSelects) {
+                if (!select.value) {
+                    select.value = productValue;
+                    select.dispatchEvent(new Event('change'));
+                    break;
+                }
+            }
+            searchResults.style.display = 'none';
+        }
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(event) {
+            if (searchInput && searchResults && 
+                !searchInput.contains(event.target) && 
+                !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
         });
     </script>
 </body>

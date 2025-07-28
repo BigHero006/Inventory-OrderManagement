@@ -55,11 +55,11 @@ $users = $admin->getAllUsers();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel="stylesheet" href="admin-dashboard.css?v=<?php echo time(); ?>">
     <script src="js/table-enhancer.js"></script>
 </head>
 <body class="admin-dashboard">
-    <div class="dashboard">
+    <div class="dashboard gradient-mesh custom-scrollbar">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo">
@@ -191,6 +191,51 @@ $users = $admin->getAllUsers();
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>User Management</h4>
+                <p>Comprehensive user administration system for managing all system users and their access levels.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="admindashboard.php">Dashboard</a></li>
+                    <li><a href="user-management.php">Users</a></li>
+                    <li><a href="employee-management.php">Employees</a></li>
+                    <li><a href="order-management.php">Orders</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>User Actions</h4>
+                <ul>
+                    <li><a href="#add" onclick="showAddUserModal()">Add User</a></li>
+                    <li><a href="#export">Export Users</a></li>
+                    <li><a href="#bulk">Bulk Actions</a></li>
+                    <li><a href="#permissions">Permissions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <div class="social-links">
+                    <a href="#help" aria-label="Help"><i class="fas fa-question-circle"></i></a>
+                    <a href="#docs" aria-label="Documentation"><i class="fas fa-book"></i></a>
+                    <a href="#support" aria-label="Support"><i class="fas fa-headset"></i></a>
+                    <a href="#settings" aria-label="Settings"><i class="fas fa-cog"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Wastu User Management. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#security">Security Guidelines</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- Add User Modal -->
     <div id="addUserModal" class="modal">
