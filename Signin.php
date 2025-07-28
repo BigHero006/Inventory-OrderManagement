@@ -44,8 +44,8 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In</title>
+    <link rel="stylesheet" href="auth-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container" id="signIn">
@@ -53,12 +53,12 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
         <form method="post" action="Signin.php">
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" id="email" placeholder="" required>
+                <input type="email" name="email" id="email" placeholder="Email" required>
                 <label for="email">Email</label>
             </div>
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" id="password" placeholder="" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
                 <label for="password">Password</label>
             </div>
             <p class="recover">
@@ -71,7 +71,7 @@ if (isset($_POST['email']) && $_POST['email'] != null) {
              </p>
             <div class="links">
                 <p>Don't have a account yet ?</p>
-                <button id="signnUpButton" onclick="window.location.href='Signup.php'">Sign Up</button>
+                <a href="Signup.php" style="color:#0369a1;text-decoration:underline;font-weight:600;">Sign Up</a>
             </div>
     </div>
 </body>

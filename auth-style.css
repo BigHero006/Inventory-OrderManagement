@@ -1,0 +1,120 @@
+body {
+    background: linear-gradient(135deg, #7dd3fc 0%, #0369a1 100%);
+    min-height: 100vh;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    background: rgba(255,255,255,0.97);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(12,74,110,0.18);
+    padding: 40px 32px 32px 32px;
+    max-width: 400px;
+    width: 100%;
+    margin: 40px auto;
+}
+.form-title {
+    color: #0369a1;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-align: center;
+}
+.input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+.input-group i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0369a1;
+    font-size: 1.1rem;
+}
+.input-group input {
+    width: 100%;
+    padding: 14px 12px 14px 38px;
+    border: 1px solid #7dd3fc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f0f9ff;
+    color: #083344;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+.input-group input::placeholder {
+    color: #7dd3fc;
+    opacity: 0.7;
+    font-size: 1rem;
+}
+.input-group label {
+    position: absolute;
+    left: 38px;
+    top: 14px;
+    background: transparent;
+    color: #0c4a6e;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.2s;
+}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 0.85rem;
+    color: #0369a1;
+    background: #fff;
+    padding: 0 4px;
+}
+.btn {
+    background: #0369a1;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(12,74,110,0.08);
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #0284c7;
+}
+.links, .or, .recover {
+    text-align: center;
+    color: #083344;
+    font-size: 0.95rem;
+    margin-top: 18px;
+}
+.links button {
+    background: #7dd3fc;
+    color: #0369a1;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px rgba(12,74,110,0.08);
+    transition: background 0.2s;
+}
+.links button:hover {
+    background: #0369a1;
+    color: #fff;
+}
+.recover a {
+    color: #0284c7;
+    text-decoration: none;
+}
+.recover a:hover {
+    text-decoration: underline;
+}
