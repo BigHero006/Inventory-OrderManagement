@@ -24,7 +24,7 @@ try {
     $financialData = $admin->getFinancialData();
     $recentOrders = $admin->getRecentOrders(6);
     $monthlyRevenue = $admin->getMonthlyRevenue();
-    $topProducts = $admin->gg(3);
+    $topProducts = $admin->getTopProducts(3);
     $paymentStats = $admin->getPaymentMethodStats();
     
     // Debug: Display what we got
