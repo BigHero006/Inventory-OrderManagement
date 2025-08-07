@@ -137,6 +137,9 @@ try {
                     <p>Track and manage all customer orders and fulfillment</p>
                 </div>
                 <div class="header-actions">
+                    <a href="financial-reports.php" class="btn-primary">
+                        <i class="fas fa-chart-line"></i> View Financial Reports
+                    </a>
                     <button class="btn-secondary" onclick="exportOrdersReport()">
                         <i class="fas fa-download"></i> Export Report
                     </button>
@@ -171,7 +174,7 @@ try {
                         <thead>
                             <tr>
                                 <th>order_id</th>
-                                <th>user_id</th>
+                                <th>Customer</th>
                                 <th>order_date</th>
                                 <th>total_amount</th>
                                 <th>status</th>
@@ -182,7 +185,7 @@ try {
                             <?php foreach ($orders as $order): ?>
                             <tr data-order-id="<?php echo $order['order_id']; ?>">
                                 <td><?php echo $order['order_id']; ?></td>
-                                <td><?php echo $order['user_id']; ?></td>
+                                <td><?php echo $order['customer_name'] ?? 'Customer ID: ' . $order['user_id']; ?></td>
                                 <td><?php echo date('M j, Y H:i:s', strtotime($order['order_date'])); ?></td>
                                 <td>Rs <?php echo number_format($order['total_amount'] ?? 0, 2); ?></td>
                                 <td>

@@ -27,11 +27,15 @@ if (!isset($_COOKIE['employee_theme'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard - Order Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="employee-dashboard.css">
+    <link rel="stylesheet" href="deep-sea-employee.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="employee-dashboard">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
     <div class="dashboard">
         
         <div class="sidebar">
@@ -137,8 +141,8 @@ if (!isset($_COOKIE['employee_theme'])) {
                     <button onclick="showAddProductModal()">Add Product</button>
                 </div>
                 <div class="course-card">
-                    <div class="title">Manage Suppliers</div>
-                    <button onclick="showAddSupplierModal()">Manage Suppliers</button>
+                    <div class="title">Manage Orders</div>
+                    <button onclick="showAddSupplierModal()">Manage Order</button>
                 </div>
                 <div class="course-card">
                     <div class="title">Create New Order</div>
@@ -313,490 +317,55 @@ if (!isset($_COOKIE['employee_theme'])) {
                 document.body.classList.add(`theme-${theme}`);
             }
         });
+
+        // Mobile menu toggle functionality
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleButton = document.querySelector('.mobile-menu-toggle');
+            
+            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Deep Sea Particle Effect
+        function createParticles() {
+            const particleCount = 15;
+            const container = document.body;
+
+            for (let i = 0; i < particleCount; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Random starting position
+                    particle.style.left = Math.random() * window.innerWidth + 'px';
+                    particle.style.animationDelay = Math.random() * 15 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    
+                    container.appendChild(particle);
+                    
+                    // Remove particle after animation
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 20000);
+                }, i * 1000);
+            }
+        }
+
+        // Start particle effect after page load
+        setTimeout(createParticles, 2000);
+        
+        // Repeat particle effect every 30 seconds
+        setInterval(createParticles, 30000);
     </script>
-
-    <style>
-        /* Enhanced search functionality styles */
-        .search-box {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e1e5e9;
-            border-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            max-height: 400px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            margin-top: 5px;
-        }
-        
-        .search-category {
-            padding: 15px 0;
-        }
-        
-        .search-category:not(:last-child) {
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .search-category h4 {
-            margin: 0 0 10px 15px;
-            color: #0c4a6e;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .search-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            border-left: 3px solid transparent;
-        }
-        
-        .search-item:hover {
-            background-color: #f1f5f9;
-            border-left-color: #0c4a6e;
-        }
-        
-        .search-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-        
-        .search-meta {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .search-empty {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
-        
-        /* Status colors */
-        .status-pending { color: #9ca3af; font-weight: bold; }
-        .status-shipped { color: #2196f3; font-weight: bold; }
-        .status-delivered { color: #4caf50; font-weight: bold; }
-        .status-cancelled { color: #f44336; font-weight: bold; }
-        .status-processing { color: #9c27b0; font-weight: bold; }
-        
-        /* Enhanced notice items */
-        .notice-item {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border-left: 4px solid #0c4a6e;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .notice-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .notice-item p {
-            margin: 8px 0;
-        }
-        
-        .notice-item small {
-            color: #666;
-            font-size: 12px;
-        }
-        
-        /* Enhanced quick actions */
-        .enrolled-courses {
-            margin-top: 30px;
-        }
-        
-        .course-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .course-card:hover {
-            border-color: #0c4a6e;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(12, 74, 110, 0.15);
-        }
-        
-        .course-card .title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .course-card button {
-            background: #0c4a6e;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 80%;
-        }
-        
-        .course-card button:hover {
-            background: #083344;
-            transform: translateY(-2px);
-        }
-        
-        /* Enhanced finance cards */
-        .finance-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .finance-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-        
-        .finance-card h3 {
-            color: #666;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .finance-card p {
-            font-size: 36px;
-            font-weight: 700;
-            color: #0c4a6e;
-            margin: 0;
-            line-height: 1;
-        }
-        
-        .finance-card small {
-            color: #888;
-            font-size: 12px;
-            margin-top: 8px;
-            display: block;
-        }
-        
-        /* Enhanced sidebar */
-        .sidebar nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 20px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            border-radius: 12px;
-            margin: 5px 10px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .sidebar nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .sidebar nav a.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Enhanced header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .search-box input:focus {
-            border-color: #0c4a6e;
-            box-shadow: 0 0 0 3px rgba(12, 74, 110, 0.1);
-        }
-        
-        /* Enhanced welcome banner */
-        .welcome-banner {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .welcome-banner .text h2 {
-            color: #333;
-            margin: 10px 0;
-            font-size: 28px;
-        }
-        
-        .welcome-banner .text p {
-            color: #666;
-            line-height: 1.6;
-            margin: 0;
-        }
-        
-        .welcome-banner .date {
-            color: #0c4a6e;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .search-box {
-                max-width: 250px;
-            }
-            
-            .finance-cards {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .welcome-banner {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-        
-        /* Animation for loading states */
-        .loading {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        /* Theme support */
-        .theme-dark {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --text-primary: #eee;
-            --text-secondary: #aaa;
-        }
-
-        /* Dashboard Footer Styles */
-        .dashboard-footer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            margin-top: 50px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .dashboard-footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            z-index: 1;
-        }
-        
-        .footer-content {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            padding: 50px 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-section h4 {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        .footer-section h4::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 30px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-        }
-        
-        .footer-section p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin: 0;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .footer-section ul li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-section ul li a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-        }
-        
-        .footer-section ul li a:hover {
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .social-links a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .footer-bottom {
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 25px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .footer-bottom p {
-            color: rgba(255, 255, 255, 0.8);
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 25px;
-        }
-        
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        /* Footer responsive design */
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 40px 20px;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-            
-            .footer-links {
-                gap: 15px;
-            }
-        }
-    </style>
 </body>
 </html>
