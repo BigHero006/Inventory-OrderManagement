@@ -328,10 +328,10 @@ class Admin {
         if ($type === 'all' || $type === 'products') {
             $sql = "SELECT 'product' as type, product_id as id, name, category 
                     FROM products 
-                    WHERE name LIKE ? OR category LIKE ?";
+                    WHERE name LIKE ? OR category LIKE ? OR description LIKE ?";
             $stmt = $this->db->getConnection()->prepare($sql);
             $searchTerm = "%$query%";
-            $stmt->execute([$searchTerm, $searchTerm]);
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
             $productResults = $stmt->fetchAll();
             foreach ($productResults as $row) {
                 $results[] = $row;
@@ -341,7 +341,7 @@ class Admin {
         if ($type === 'all' || $type === 'orders') {
             $sql = "SELECT 'order' as type, order_id as id, 
                            CONCAT('Order #', order_id) as name, 
-                           status as category 
+                           CONCAT(status, ' - Rs ', total_amount) as category 
                     FROM orders 
                     WHERE order_id LIKE ? OR status LIKE ?";
             $stmt = $this->db->getConnection()->prepare($sql);
@@ -349,6 +349,20 @@ class Admin {
             $stmt->execute([$searchTerm, $searchTerm]);
             $orderResults = $stmt->fetchAll();
             foreach ($orderResults as $row) {
+                $results[] = $row;
+            }
+        }
+        
+        if ($type === 'all' || $type === 'suppliers') {
+            $sql = "SELECT 'supplier' as type, supplier_id as id, company_name as name, 
+                           CONCAT(contact_person, ' - ', email) as category 
+                    FROM suppliers 
+                    WHERE company_name LIKE ? OR contact_person LIKE ? OR email LIKE ?";
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $searchTerm = "%$query%";
+            $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
+            $supplierResults = $stmt->fetchAll();
+            foreach ($supplierResults as $row) {
                 $results[] = $row;
             }
         }

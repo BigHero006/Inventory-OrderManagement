@@ -140,7 +140,7 @@ try {
             <div class="header">
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Search users, orders, products...">
+                        <input type="text" id="searchInput" placeholder="Search users, orders, products, suppliers...">
                         <button id="searchBtn"><i class="fas fa-search"></i></button>
                     </div>
                     <div id="searchResults" class="search-results"></div>
@@ -367,40 +367,66 @@ try {
             const resultsContainer = document.getElementById('searchResults');
             let html = '';
             
-            if (results.users && results.users.length > 0) {
-                html += '<div class="search-category"><h4>Users</h4>';
-                results.users.forEach(user => {
-                    html += `<div class="search-item" onclick="navigateToPage('user-management.php?user=${user.id}')">
-                        <i class="fas fa-user"></i>
-                        <span>${user.name}</span>
-                        <small>${user.email}</small>
-                    </div>`;
-                });
-                html += '</div>';
-            }
-            
-            if (results.products && results.products.length > 0) {
-                html += '<div class="search-category"><h4>Products</h4>';
-                results.products.forEach(product => {
-                    html += `<div class="search-item" onclick="navigateToPage('product-management.php?product=${product.id}')">
-                        <i class="fas fa-box"></i>
-                        <span>${product.name}</span>
-                        <small>${product.category}</small>
-                    </div>`;
-                });
-                html += '</div>';
-            }
-            
-            if (results.orders && results.orders.length > 0) {
-                html += '<div class="search-category"><h4>Orders</h4>';
-                results.orders.forEach(order => {
-                    html += `<div class="search-item" onclick="navigateToPage('order-management.php?order=${order.id}')">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Order #${order.id}</span>
-                        <small>${order.name}</small>
-                    </div>`;
-                });
-                html += '</div>';
+            if (results && results.length > 0) {
+                // Group results by type
+                const groupedResults = {
+                    users: results.filter(r => r.type === 'user'),
+                    products: results.filter(r => r.type === 'product'),
+                    orders: results.filter(r => r.type === 'order'),
+                    suppliers: results.filter(r => r.type === 'supplier')
+                };
+                
+                // Display users
+                if (groupedResults.users.length > 0) {
+                    html += '<div class="search-category"><h4>Users</h4>';
+                    groupedResults.users.forEach(user => {
+                        html += `<div class="search-item" onclick="navigateToPage('user-management.php?user=${user.id}')">
+                            <i class="fas fa-user"></i>
+                            <span>${user.name}</span>
+                            <small>${user.email || ''}</small>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+                
+                // Display products
+                if (groupedResults.products.length > 0) {
+                    html += '<div class="search-category"><h4>Products</h4>';
+                    groupedResults.products.forEach(product => {
+                        html += `<div class="search-item" onclick="navigateToPage('product-management.php?product=${product.id}')">
+                            <i class="fas fa-box"></i>
+                            <span>${product.name}</span>
+                            <small>${product.category || ''}</small>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+                
+                // Display orders
+                if (groupedResults.orders.length > 0) {
+                    html += '<div class="search-category"><h4>Orders</h4>';
+                    groupedResults.orders.forEach(order => {
+                        html += `<div class="search-item" onclick="navigateToPage('order-management.php?order=${order.id}')">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>${order.name}</span>
+                            <small>${order.category || ''}</small>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+                
+                // Display suppliers
+                if (groupedResults.suppliers.length > 0) {
+                    html += '<div class="search-category"><h4>Suppliers</h4>';
+                    groupedResults.suppliers.forEach(supplier => {
+                        html += `<div class="search-item" onclick="navigateToPage('supplier-management.php?supplier=${supplier.id}')">
+                            <i class="fas fa-truck"></i>
+                            <span>${supplier.name}</span>
+                            <small>${supplier.category || ''}</small>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
             }
             
             if (html === '') {
