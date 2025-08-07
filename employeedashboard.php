@@ -27,7 +27,7 @@ if (!isset($_COOKIE['employee_theme'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Dashboard - Order Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="deep-sea-employee.css">
+    <link rel="stylesheet" href="employee-dashboard.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="employee-dashboard">
@@ -51,6 +51,10 @@ if (!isset($_COOKIE['employee_theme'])) {
                 <a href="employee-orders.php">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Manage Orders</span>
+                </a>
+                <a href="employee-create-order.php">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Order</span>
                 </a>
                 <a href="employee-products.php">
                     <i class="fas fa-box"></i>
@@ -142,7 +146,7 @@ if (!isset($_COOKIE['employee_theme'])) {
                 </div>
                 <div class="course-card">
                     <div class="title">Manage Orders</div>
-                    <button onclick="showAddSupplierModal()">Manage Order</button>
+                    <button onclick="showManageOrdersModal()">Manage Order</button>
                 </div>
                 <div class="course-card">
                     <div class="title">Create New Order</div>
@@ -164,6 +168,10 @@ if (!isset($_COOKIE['employee_theme'])) {
 
         function showAddSupplierModal() {
             window.location.href = 'supplier-management.php';
+        }
+
+        function showManageOrdersModal() {
+            window.location.href = 'employee-orders.php';
         }
 
         function showAddOrderModal() {

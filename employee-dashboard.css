@@ -1,8 +1,8 @@
-/* Employee Dashboard Enhanced Styles - White Background Theme */
+/* Employee Dashboard Enhanced Styles - Deep Sea Theme */
 
-/* Global Variables - Exact Admin Dashboard Colors */
+/* Global Variables - Matching Order Management Colors */
 :root {
-    /* Primary Colors - Exact Match to Admin */
+    /* Primary Colors - Deep Sea Theme */
     --primary-color: #0c4a6e;           /* Deep Ocean Blue */
     --primary-dark: #083344;            /* Deeper Sea Blue */
     --primary-light: #0369a1;           /* Lighter Ocean Blue */
@@ -10,14 +10,14 @@
     --accent-color: #0284c7;            /* Accent Ocean Blue */
     --accent-gradient: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
     
-    /* Background Colors - Exact Match to Admin */
+    /* Background Colors - Deep Sea Theme */
     --bg-primary: #f0f9ff;              /* Very Light Ocean Tint */
     --bg-secondary: #e0f2fe;            /* Light Ocean Tint */
     --bg-dark: #083344;                 /* Deep Sea for contrast */
     --bg-card: rgba(255, 255, 255, 0.95);
     --bg-overlay: rgba(12, 74, 110, 0.05);  /* Subtle Ocean Overlay */
     
-    /* Text Colors - Exact Match to Admin */
+    /* Text Colors - Deep Sea Theme */
     --text-primary: #042f2e;            /* Very Dark Sea Green (almost black) */
     --text-secondary: #083344;          /* Dark Ocean Blue */
     --text-muted: #0f766e;              /* Medium Sea Teal */
@@ -415,14 +415,173 @@ html, body {
     font-size: 18px;
 }
 
+/* Notification Badge - Deep Sea Theme (No Circle) */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--error-color);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 18px;
+    text-align: center;
+    display: none;
+}
+
+.notification-badge.show {
+    display: block;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: none;
+}
+
+.notification-dropdown.show {
+    display: block;
+}
+
+.notification-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-header h4 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.mark-read-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mark-read-btn:hover {
+    background: var(--primary-dark);
+}
+
+.notification-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f8f9fa;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.notification-item:hover {
+    background: var(--bg-secondary);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item.unread {
+    background: rgba(12, 74, 110, 0.05);
+    border-left: 3px solid var(--primary-color);
+}
+
+.notification-item .message {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.notification-item .time {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Enhanced notification styles */
+.notification-item .notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.notification-item .notification-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.notification-item .notification-type {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.notification-type.type-info {
+    background: #3b82f6;
+}
+
+.notification-type.type-warning {
+    background: #f59e0b;
+}
+
+.notification-type.type-error {
+    background: #ef4444;
+}
+
+.notification-type.type-success {
+    background: #10b981;
+}
+
+.notification-item .notification-message {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.notification-item .notification-time {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.no-notifications {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 .user-info .name {
     font-weight: 600;
-    color: #1f2937;
+    color: var(--text-primary);
     font-size: 16px;
 }
 
 .user-info .year {
-    color: #6b7280;
+    color: var(--text-secondary);
     font-size: 14px;
     background: rgba(12, 74, 110, 0.1);
     padding: 4px 12px;
@@ -430,11 +589,10 @@ html, body {
     font-weight: 500;
 }
 
-/* Enhanced Welcome Banner - Exact Admin Dashboard Match */
+/* Enhanced Welcome Banner - Deep Sea Theme with Light Background */
 .welcome-banner {
-    background: var(--bg-card);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-lg);
     padding: var(--spacing-2xl);
     margin-bottom: var(--spacing-xl);
@@ -466,7 +624,7 @@ html, body {
 }
 
 .welcome-banner .date {
-    color: var(--text-white);
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -475,7 +633,7 @@ html, body {
 }
 
 .welcome-banner h2 {
-    color: var(--text-white);
+    color: var(--text-primary);
     margin: var(--spacing-md) 0;
     font-size: 2.5rem;
     font-weight: 700;
@@ -483,7 +641,7 @@ html, body {
 }
 
 .welcome-banner p {
-    color: var(--text-white);
+    color: var(--text-secondary);
     font-size: 1.1rem;
     line-height: 1.6;
     margin: 0;

@@ -238,5 +238,85 @@ class Employee {
             return false;
         }
     }
+    
+    // Get notifications for employee
+    public function getNotifications($limit = 10, $unreadOnly = false) {
+        try {
+            $whereClause = $unreadOnly ? "WHERE is_read = 0" : "";
+            $stmt = $this->conn->prepare("
+                SELECT notification_id, title, message, type, is_read, created_at 
+                FROM notifications 
+                $whereClause
+                ORDER BY created_at DESC 
+                LIMIT :limit
+            ");
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Format timestamps for display
+            foreach ($notifications as &$notification) {
+                $notification['time_ago'] = $this->timeAgo($notification['created_at']);
+            }
+            
+            return $notifications;
+        } catch (Exception $e) {
+            error_log("Error getting notifications: " . $e->getMessage());
+            return [];
+        }
+    }
+    
+    // Mark notifications as read
+    public function markNotificationsRead($notificationIds) {
+        try {
+            if (empty($notificationIds)) {
+                // Mark all notifications as read
+                $stmt = $this->conn->prepare("
+                    UPDATE notifications 
+                    SET is_read = 1, read_at = NOW() 
+                    WHERE is_read = 0
+                ");
+                return $stmt->execute();
+            } else {
+                // Mark specific notifications as read
+                $placeholders = str_repeat('?,', count($notificationIds) - 1) . '?';
+                $stmt = $this->conn->prepare("
+                    UPDATE notifications 
+                    SET is_read = 1, read_at = NOW() 
+                    WHERE notification_id IN ($placeholders)
+                ");
+                
+                return $stmt->execute($notificationIds);
+            }
+        } catch (Exception $e) {
+            error_log("Error marking notifications as read: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    // Get unread notification count
+    public function getUnreadNotificationCount() {
+        try {
+            $stmt = $this->conn->prepare("SELECT COUNT(*) as count FROM notifications WHERE is_read = 0");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+        } catch (Exception $e) {
+            error_log("Error getting unread notification count: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    // Helper function to format time ago
+    private function timeAgo($datetime) {
+        $time = time() - strtotime($datetime);
+        
+        if ($time < 60) return 'just now';
+        if ($time < 3600) return floor($time/60) . 'm ago';
+        if ($time < 86400) return floor($time/3600) . 'h ago';
+        if ($time < 2592000) return floor($time/86400) . 'd ago';
+        
+        return date('M j, Y', strtotime($datetime));
+    }
 }
 ?>

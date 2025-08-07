@@ -61,6 +61,12 @@ try {
                     $response = $employee->getSuppliers();
                     break;
                     
+                case 'notifications':
+                    $limit = $_GET['limit'] ?? 10;
+                    $unread_only = $_GET['unread_only'] ?? false;
+                    $response = $employee->getNotifications($limit, $unread_only);
+                    break;
+                    
                 default:
                     http_response_code(400);
                     $response = ['error' => 'Invalid action'];
@@ -120,6 +126,18 @@ try {
                         $response = ['error' => 'Invalid order update data'];
                     } else {
                         $result = $employee->updateOrderStatus($orderId, $status);
+                        $response = ['success' => $result];
+                    }
+                    break;
+                    
+                case 'mark_notifications_read':
+                    $notificationIds = $input['notification_ids'] ?? [];
+                    
+                    if (empty($notificationIds)) {
+                        http_response_code(400);
+                        $response = ['error' => 'No notification IDs provided'];
+                    } else {
+                        $result = $employee->markNotificationsRead($notificationIds);
                         $response = ['success' => $result];
                     }
                     break;

@@ -53,7 +53,7 @@ $suppliers = $employee->getSuppliers();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Management - Employee Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="deep-sea-employee.css">
+    <link rel="stylesheet" href="employee-dashboard.css?v=<?php echo time(); ?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .product-management {
@@ -351,6 +351,10 @@ $suppliers = $employee->getSuppliers();
                     <i class="fas fa-shopping-cart"></i>
                     <span>Manage Orders</span>
                 </a>
+                <a href="employee-create-order.php">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Order</span>
+                </a>
                 <a href="employee-products.php" class="active">
                     <i class="fas fa-box"></i>
                     <span>Manage Products</span>
@@ -358,10 +362,6 @@ $suppliers = $employee->getSuppliers();
                 <a href="employee-shipments.php">
                     <i class="fas fa-truck"></i>
                     <span>Shipments</span>
-                </a>
-                <a href="employee-create-order.php">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Create Order</span>
                 </a>
                 <a href="logout.php">
                     <i class="fas fa-sign-out-alt"></i>
@@ -379,8 +379,18 @@ $suppliers = $employee->getSuppliers();
                     <div id="searchResults" class="search-results"></div>
                 </div>
                 <div class="user-info">
-                    <div class="notification">
+                    <div class="notification" onclick="toggleNotifications()">
                         <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">0</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <div class="notification-header">
+                                <h4>Notifications</h4>
+                                <button onclick="markAllAsRead()" class="mark-read-btn">Mark all as read</button>
+                            </div>
+                            <div class="notification-list" id="notificationList">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </div>
                     </div>
                     <div class="name"><?php echo htmlspecialchars($firstName . ' ' . $lastName); ?></div>
                     <div class="year">Employee</div>
@@ -687,6 +697,131 @@ $suppliers = $employee->getSuppliers();
                 !searchInput.contains(event.target) && 
                 !searchResults.contains(event.target)) {
                 searchResults.style.display = 'none';
+            }
+        });
+
+        // Notification System
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('show');
+            if (dropdown.classList.contains('show')) {
+                loadNotifications();
+            }
+        }
+
+        function loadNotifications() {
+            fetch('api/employee_api.php?action=notifications&limit=5')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && Array.isArray(data)) {
+                        displayNotifications(data);
+                        // Count unread notifications
+                        const unreadCount = data.filter(n => !n.is_read).length;
+                        updateNotificationBadge(unreadCount);
+                    }
+                })
+                .catch(error => console.error('Error loading notifications:', error));
+        }
+
+        function displayNotifications(notifications) {
+            const notificationList = document.getElementById('notificationList');
+            if (notifications.length === 0) {
+                notificationList.innerHTML = '<div style="padding: 20px; text-align: center; color: #6b7280;">No notifications</div>';
+                return;
+            }
+
+            notificationList.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.is_read ? 'read' : 'unread'}" 
+                     data-id="${notification.notification_id}"
+                     onclick="markAsRead(${notification.notification_id})">
+                    <div class="notification-header">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-type type-${notification.type}"></div>
+                    </div>
+                    <div class="notification-message">${notification.message}</div>
+                    <div class="notification-time">${notification.time_ago}</div>
+                </div>
+            `).join('');
+        }
+
+        function updateNotificationBadge(count) {
+            const badge = document.getElementById('notificationBadge');
+            badge.textContent = count;
+            if (count > 0) {
+                badge.style.display = 'block';
+                badge.classList.add('show');
+            } else {
+                badge.style.display = 'none';
+                badge.classList.remove('show');
+            }
+        }
+
+        function markAllAsRead() {
+            fetch('api/employee_api.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'mark_notifications_read',
+                    notification_ids: [] // Empty array means mark all as read
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadNotifications();
+                    }
+                })
+                .catch(error => console.error('Error marking notifications as read:', error));
+        }
+
+        function markAsRead(notificationId) {
+            if (!notificationId) return;
+            
+            fetch('api/employee_api.php', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'mark_notifications_read',
+                    notification_ids: [notificationId]
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadNotifications();
+                    }
+                })
+                .catch(error => console.error('Error marking notification as read:', error));
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now.getTime() - date.getTime();
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Load notifications on page load and refresh periodically
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+            setInterval(loadNotifications, 30000); // Check every 30 seconds
+        });
+
+        // Hide notification dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notification = document.querySelector('.notification');
+            if (notification && !notification.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
             }
         });
     </script>    
