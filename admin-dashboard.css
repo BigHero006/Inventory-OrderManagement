@@ -544,7 +544,7 @@ body {
 .section-title {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #000000;
     margin-bottom: var(--spacing-xl);
     position: relative;
     display: inline-block;
@@ -699,14 +699,14 @@ body {
 .stat-content h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #000000;
     margin-bottom: var(--spacing-sm);
 }
 
 .stat-number {
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: #000000;
     margin-bottom: var(--spacing-md);
     line-height: 1;
 }
@@ -938,10 +938,7 @@ body {
 
 /* Enhanced Typography */
 .text-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #000000;
     font-weight: 700;
 }
 
@@ -1719,10 +1716,7 @@ body {
     }
     
     .text-gradient {
-        background: #000;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #000000;
     }
 }
 
